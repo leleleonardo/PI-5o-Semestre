@@ -25,13 +25,20 @@ const BotãoHist = () => (
     </Button>
 );
 
+const BotãoSair = () => (
+    <Button style={styles.button} mode="contained" onPress={() => console.log('Pressed')}>
+        SAIR
+    </Button>
+);
+
 const styles = StyleSheet.create({
     button: {
-        width: 250,
+        height: 45,
+        width: 230,
         backgroundColor: '#6A28D9',
-        margin: 10,
+        margin: 15,
         alignContent: "center",
     },
 })
 
-export { BotãoFila, BotãoEditarConta, BotãoEditarPgto, BotãoHist };
+export { BotãoFila, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair };

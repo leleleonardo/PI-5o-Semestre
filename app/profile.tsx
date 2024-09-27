@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text } from 'react-native'
 import Cardbox from '../Components/Card/Card'
 import { BtIconeM, BtIconeAct, BtIconePgt } from '../Components/IconButton/IconButton'
-import { BotãoEditarConta, BotãoEditarPgto, BotãoHist } from '../Components/Button/Button'
+import { BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair } from '../Components/Button/Button'
 
 
 export default function Profile() {
@@ -13,6 +13,7 @@ export default function Profile() {
                     <BotãoEditarConta />
                     <BotãoEditarPgto />
                     <BotãoHist />
+                    <BotãoSair />
                 </Cardbox>
             <View style={styles.footer}>
                 <BtIconePgt />
