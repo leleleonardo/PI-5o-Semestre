@@ -2,6 +2,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import Cardbox from '../Components/Card/Card'
 import { BtIconeM, BtIconeAct, BtIconePgt } from '../Components/IconButton/IconButton'
 import { useState } from 'react'
+import { Footer } from '../Components/Footer/footer'
 
 
 export default function Home() {
@@ -16,11 +17,7 @@ export default function Home() {
             <Cardbox>
                 {cardContent}
             </Cardbox>
-            <View style={styles.footer}>
-                <BtIconePgt />
-                <BtIconeM />
-                <BtIconeAct />
-            </View>
+            <Footer></Footer>
         </View>
     )
 }
