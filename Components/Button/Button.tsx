@@ -7,6 +7,12 @@ const BotãoFila = () => (
     </Button>
 );
 
+const BotãoComprar = () => (
+    <Button style={styles.button} mode="contained" onPress={() => console.log('Pressed')}>
+        Comprar
+    </Button>
+);
+
 const BotãoEditarConta = () => (
     <Button style={styles.button} mode="contained" onPress={() => console.log('Pressed')}>
         EDITAR CONTA
@@ -41,4 +47,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export { BotãoFila, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair };
+export { BotãoFila, BotãoComprar, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair };

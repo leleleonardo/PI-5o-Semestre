@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 import * as React from 'react';
 import { IconButton, MD3Colors } from 'react-native-paper';
 
@@ -32,7 +32,7 @@ const BtIconePgt = () => (
     icon="credit-card"
     iconColor={MD3Colors.error95}
     size={40}
-    onPress={() => console.log('Pressed')}
+    onPress={() => router.push('/payment')}
   />
 );
 
