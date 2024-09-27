@@ -1,21 +1,19 @@
 import { View, StyleSheet, Text } from 'react-native'
 import Cardbox from '../Components/Card/Card'
 import { BtIconeM, BtIconeAct, BtIconePgt } from '../Components/IconButton/IconButton'
-import { useState } from 'react'
+import { BotãoEditarConta, BotãoEditarPgto, BotãoHist } from '../Components/Button/Button'
 
 
-export default function Home() {
-
-    const [filas, setFilas] = useState([])
-
-    const cardContent = filas.length === 0
-        ?<Text> Você não está em nenhuma fila. Clique para acessar uma fila</Text>
-        :<Text> Você está nas seguintes filas: {filas.join(', ')}</Text>
+export default function Profile() {
     return (
         <View style={styles.container}>
-            <Cardbox>
-                {cardContent}
-            </Cardbox>
+
+                <Cardbox>
+                    <Text style={styles.title}>SUA CONTA</Text>
+                    <BotãoEditarConta />
+                    <BotãoEditarPgto />
+                    <BotãoHist />
+                </Cardbox>
             <View style={styles.footer}>
                 <BtIconePgt />
                 <BtIconeM />
@@ -41,4 +39,16 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 20,
     },
+    title: {
+        fontSize: 24,
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: 20,
+    },
+    message: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: 20,
+    }
 })
