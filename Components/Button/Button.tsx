@@ -37,6 +37,12 @@ const BotãoSair = () => (
     </Button>
 );
 
+const BotãoCreditos = () => (
+    <Button style={styles.botaoText} mode="contained" onPress={() => console.log('Pressed')}>
+        5 créditos/min
+    </Button>
+);
+
 const styles = StyleSheet.create({
     button: {
         height: 45,
@@ -45,6 +51,17 @@ const styles = StyleSheet.create({
         margin: 15,
         alignContent: "center",
     },
+    botaoText: {
+    height: 45,
+    width: 230,
+    color: '#000000',
+    backgroundColor: '#000000',
+    margin: 15,
+    alignItems: "center", 
+    justifyContent: "center", 
+    borderRadius: 10,     
+    },
+    
 })
 
-export { BotãoFila, BotãoComprar, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair };
+export { BotãoFila, BotãoCreditos, BotãoComprar, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair };

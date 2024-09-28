@@ -1,8 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { BotãoComprar } from '../Components/Button/Button'
 import Cardbox from '../Components/Card/Card'
-import { BtIconePgt, BtIconeM, BtIconeAct } from '../Components/IconButton/IconButton'
 import { Footer } from '../Components/Footer/footer'
+import BalanceCard from '../Components/Card/BalanceCard'
+import PurchaseCard from '../Components/Card/PurchaseCard'
+import React from 'react'
+
 
 
 export default function Payment() {
@@ -11,12 +14,16 @@ export default function Payment() {
 
                 <Cardbox>
                     <Text style={styles.title}>Créditos</Text>
-                    <BotãoComprar />
+                    <BalanceCard balance={35}></BalanceCard>
+                    <PurchaseCard></PurchaseCard>
+                    
                     
                 </Cardbox>
             <View style={styles.footer}>
             
             </View>
+            
+           
             <Footer></Footer>
             
         </View>
