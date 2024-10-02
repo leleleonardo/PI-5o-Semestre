@@ -1,8 +1,8 @@
 import { View, StyleSheet, Text } from 'react-native'
 import Cardbox from '../Components/Card/Card'
-import { BtIconeM, BtIconeAct, BtIconePgt } from '../Components/IconButton/IconButton'
 import { useState } from 'react'
 import { Footer } from '../Components/Footer/footer'
+import { BotãoJogar } from '../Components/Button/Button'
 
 
 export default function Home() {
@@ -15,7 +15,9 @@ export default function Home() {
     return (
         <View style={styles.container}>
             <Cardbox>
-                {cardContent}
+                <Text style={styles.title}>JOGAR</Text>
+                <Text style={styles.message}>Nenhum console selecionado. Clique em "COMEÇAR A JOGAR" para selecionar um console.</Text>
+                <BotãoJogar />
             </Cardbox>
             <Footer></Footer>
         </View>
@@ -29,6 +31,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#1C1635',
         padding: 20,
         alignItems: 'center'
+    },
+    title: {
+        fontSize: 24,
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: 20,
+    },
+    message: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: 20,
     },
     footer: {
         position: 'absolute',
