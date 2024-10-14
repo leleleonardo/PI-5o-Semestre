@@ -8,20 +8,20 @@ const BotãoFila = () => {
     return(
     <Button style={styles.button}
         mode="contained"
-        onPress={() => router.push('/filas')}>
-        Entrar em nova fila
+        contentStyle={{ height: 55 }}
+        onPress={() => router.push('/selecao_console')}>
+        COMEÇAR A JOGAR
     </Button>
 )
 };
 
 const BotãoJogar = () => {
-
     return (
         <Button style={styles.button}
             mode="contained"
             contentStyle={{ height: 55 }}
-            onPress={() => router.push('/filas')}>
-            COMEÇAR A JOGAR
+            onPress={() => router.push('/selecao_console')}>
+            JOGAR
         </Button>
     )
 };

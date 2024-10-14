@@ -3,23 +3,21 @@ import { View, Text, StyleSheet } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
 import Cardbox from '../Components/Card/Card';
-import {Console1, Console2 }from '../Components/Card/Console';
+import  {Console1, Console2 } from '../Components/Card/Console';
 import { BotãoJogar } from '../Components/Button/Button';
 
-export default function Fila() {
+export default function Selecao() {
     return (
         <View style={styles.container}>
             <Cardbox>
                 <Text style={styles.title}>JOGAR</Text>
                 <Fundo>
-                    <Console1></Console1>
-                    <Console1></Console1>
-                    <Console1></Console1>
-                    <Console1></Console1>
+                    <Console2></Console2>
+                    <Console2></Console2>
+                    <Console2></Console2>
+                    <Console2></Console2>
                 </Fundo>
-                <View style={styles.botaoContainer}>
-                <BotãoJogar />
-                </View>
+
             </Cardbox>
             <View style={styles.footer}>
             </View>
