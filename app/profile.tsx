@@ -1,6 +1,5 @@
 import { View, StyleSheet, Text } from 'react-native'
 import Cardbox from '../Components/Card/Card'
-import { BtIconeM, BtIconeAct, BtIconePgt } from '../Components/IconButton/IconButton'
 import { BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair } from '../Components/Button/Button'
 import { Footer } from '../Components/Footer/footer'
 
@@ -8,15 +7,18 @@ import { Footer } from '../Components/Footer/footer'
 export default function Profile() {
     return (
         <View style={styles.container}>
-
-                <Cardbox>
-                    <Text style={styles.title}>SUA CONTA</Text>
+            <Cardbox>
+                <Text style={styles.title}>SUA CONTA</Text>
+                <View style={styles.buttonContainer}>
                     <BotãoEditarConta />
                     <BotãoEditarPgto />
                     <BotãoHist />
+                </View>
+                <View style={styles.sairContainer}>
                     <BotãoSair />
-                </Cardbox>
-                <Footer></Footer>
+                </View>
+            </Cardbox>
+            <Footer />
         </View>
     )
 }
@@ -27,15 +29,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#1C1635',
         padding: 20,
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    buttonContainer: {
+        justifyContent: 'center', 
+        alignItems: 'center',
+        marginBottom: 10,
     },
     footer: {
-        position: 'absolute',
-        bottom: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
         paddingHorizontal: 20,
+    },
+    sairContainer: {
+        flexDirection: 'row',
+        marginTop: 120,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     title: {
         fontSize: 24,
@@ -43,10 +54,4 @@ const styles = StyleSheet.create({
         color: 'white',
         marginBottom: 20,
     },
-    message: {
-        fontSize: 16,
-        textAlign: 'center',
-        color: 'white',
-        marginBottom: 20,
-    }
 })

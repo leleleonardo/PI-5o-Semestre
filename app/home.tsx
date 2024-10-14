@@ -10,16 +10,20 @@ export default function Home() {
     const [filas, setFilas] = useState([])
 
     const cardContent = filas.length === 0
-        ?<Text> Você não está em nenhuma fila. Clique para acessar uma fila</Text>
-        :<Text> Você está nas seguintes filas: {filas.join(', ')}</Text>
+        ? <Text> Você não está em nenhuma fila. Clique para acessar uma fila</Text>
+        : <Text> Você está nas seguintes filas: {filas.join(', ')}</Text>
     return (
         <View style={styles.container}>
             <Cardbox>
                 <Text style={styles.title}>JOGAR</Text>
                 <Text style={styles.message}>Nenhum console selecionado. Clique em "COMEÇAR A JOGAR" para selecionar um console.</Text>
-                <BotãoJogar />
+                <View style={styles.botaoContainer}>
+                    <BotãoJogar />
+                </View>
             </Cardbox>
             <Footer></Footer>
+
+
         </View>
     )
 }
@@ -33,13 +37,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
+        position: "relative",
+        top: 20,
         fontSize: 24,
         textAlign: 'center',
         color: 'white',
         marginBottom: 20,
     },
     message: {
-        fontSize: 16,
+        position: "relative",
+        top: 130,
+        fontSize: 26,
         textAlign: 'center',
         color: 'white',
         marginBottom: 20,
@@ -52,4 +60,10 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 20,
     },
+    botaoContainer: {
+        marginTop: 230,
+        width: '100%', 
+        alignItems: 'center', 
+    },
+
 })

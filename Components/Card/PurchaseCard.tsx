@@ -8,7 +8,7 @@ const PurchaseCard: React.FC = ({ }) => {
   return (
     <View style={styles.balanceCard}>
       {/* Título "SALDO" */}
-      <Text style={styles.heading}>Comprar</Text>
+      <Text style={styles.heading}>COMPRAR</Text>
       <BotãoCreditos></BotãoCreditos>
       <BotãoComprar />
       
