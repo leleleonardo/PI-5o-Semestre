@@ -1,18 +1,38 @@
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import { router, useRouter } from 'expo-router';
+import axios from 'axios';
 
 
 const BotãoFila = () => {
-    const router = useRouter()
-    return(
-    <Button style={styles.button}
-        mode="contained"
-        contentStyle={{ height: 55 }}
-        onPress={() => router.push('/selecao_console')}>
-        COMEÇAR A JOGAR
+    const router = useRouter();
+
+  const handlePress = async () => {
+    try {
+      // Faz a requisição POST para a API
+      const response = await axios.post('http://localhost:3000/fila', {
+        userId: userId, // Passa o userId
+        console: consoleName // Passa o nome do console
+      });
+
+      console.log('Item inserido:', response.data);
+      // Redireciona após inserir na fila
+      router.push('/selecao_console');
+    } catch (error) {
+      console.error('Erro ao inserir na fila:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  return (
+    <Button
+      style={styles.button}
+      mode="contained"
+      contentStyle={{ height: 55 }}
+      onPress={handlePress}
+    >
+      JOGAR
     </Button>
-)
+  );
 };
 
 const BotãoJogar = () => {
