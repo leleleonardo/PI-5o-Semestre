@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import { BotãoJogar } from '../Button/Button';
+import { useAuth } from '../../context/auth';
 
 const Console1 = () => (
   <Card style={styles.consoleCard}>
@@ -11,15 +12,23 @@ const Console1 = () => (
   </Card>
 );
 
-const Console2 = () => (
-    <Card style={styles.consoleCard}>
-      <Card.Content>
-        <Text style={styles.title}>PS5</Text>
-        <Text style= {styles.message}>Tempo de espera: 30 minutos</Text>
-        <BotãoJogar/>
-      </Card.Content>
-    </Card>
+const Console2 = () => {
+  const { user } = useAuth(); // Obtenha o usuário do contexto
+
+  return (
+      <Card style={styles.consoleCard}>
+          <Card.Content>
+              <Text style={styles.title}>PS5</Text>
+              <Text style={styles.message}>Tempo de espera: 30 minutos</Text>
+              {user.username ? (
+                   <BotãoJogar /> // O username é acessado diretamente do contexto
+              ) : (
+                  <Text>Faça login para jogar.</Text>
+              )}
+          </Card.Content>
+      </Card>
   );
+};
 
 const styles = StyleSheet.create({
     consoleCard: {

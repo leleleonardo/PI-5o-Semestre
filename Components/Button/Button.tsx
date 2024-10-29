@@ -2,40 +2,12 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import { router, useRouter } from 'expo-router';
 import axios from 'axios';
+import React from 'react';
+import { API_URL } from './config';
+import { useAuth } from '../../context/auth';
 
 
 const BotãoFila = () => {
-    const router = useRouter();
-
-  const handlePress = async () => {
-    try {
-      // Faz a requisição POST para a API
-      const response = await axios.post('http://localhost:3000/fila', {
-        userId: userId, // Passa o userId
-        console: consoleName // Passa o nome do console
-      });
-
-      console.log('Item inserido:', response.data);
-      // Redireciona após inserir na fila
-      router.push('/selecao_console');
-    } catch (error) {
-      console.error('Erro ao inserir na fila:', error.response ? error.response.data : error.message);
-    }
-  };
-
-  return (
-    <Button
-      style={styles.button}
-      mode="contained"
-      contentStyle={{ height: 55 }}
-      onPress={handlePress}
-    >
-      JOGAR
-    </Button>
-  );
-};
-
-const BotãoJogar = () => {
     return (
         <Button style={styles.button}
             mode="contained"
@@ -45,6 +17,51 @@ const BotãoJogar = () => {
         </Button>
     )
 };
+
+const BotãoJogar = () => { // Passando username como prop
+    const { user } = useAuth(); // Obtendo o usuário do contexto
+    const username = user.username; // Acessando o username
+  
+    const handlePress = async () => {
+        const dateTime = new Date().toISOString(); // Obtém a data e hora atual
+
+        try {
+            // Primeiro, busque a quantidade atual de filas para definir a posição
+            const queueResponse = await axios.get(`${API_URL}/queues`);
+            const positionFila = queueResponse.data.length + 1; // Incrementa o total atual
+
+            // Cria um ID único
+            const generateUniqueId = () => {
+                return `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+            };
+
+            const response = await axios.post(`${API_URL}/queues`, {
+                id: generateUniqueId(),  // ID gerado
+                user: username, // Nome do usuário
+                dateTime: dateTime, // Data e hora da inserção
+                positionFila: positionFila, // Posição na fila
+                console: 'Nome do Console', // Dado fixo do console
+            });
+
+            if (response.status === 201) {
+                router.push('/selecao_console');
+            } else {
+                console.error('Erro ao inclusão a fila:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+  
+    return (
+        <Button style={styles.button}
+            mode="contained"
+            contentStyle={{ height: 55 }}
+            onPress={handlePress}>
+            JOGAR
+        </Button>
+    );
+  };
 
 const BotãoComprar = () => (
     <Button style={styles.button}

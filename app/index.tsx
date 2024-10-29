@@ -8,6 +8,16 @@ const Login: React.FC = () => {
     const auth = useAuth()
     const [showPassword, setShowPassword] = useState(false)
 
+
+    const handleLogin = async () => {
+        await auth.handleLogin(); // Lógica do login
+        auth.setUser({ ...auth.user, username: auth.user.email }); // Armazena o email como username
+        
+        // Redirecionar para a tela onde o BotãoJogar é exibido, por exemplo, Home
+        // Use o roteador para redirecionar
+        router.push('/home'); // Ajuste o caminho conforme necessário
+    };
+
     return (
         <View style={styles.container}>
             <Cardbox>

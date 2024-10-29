@@ -3,8 +3,9 @@ import { createContext, ReactNode, useContext, useState } from "react"
 import axios from 'axios'
 
 interface IUserLogin {
-    email: string
-    password: string
+    email: string;
+    password: string;
+    username?: string; // Adicione o username como opcional
 }
 
 interface IAuthContext {
@@ -30,8 +31,9 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
             })
 
             if (response.status === 200) {
-                setUser(user)
-                router.push('/home')
+                 // Armazena o email como username
+                 setUser({ ...user, username: user.email }); // Aqui é onde você define o username
+                 router.push('/home');
             }
         } catch (error) {
             alert('Email ou senha inválidos!')
@@ -46,6 +48,6 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
 }
 
 export function useAuth() {
-    const context = useContext(AuthContext)
-    return context
+    const context = useContext(AuthContext);
+    return context;
 }
