@@ -63,14 +63,37 @@ const BotãoJogar = () => { // Passando username como prop
     );
   };
 
-const BotãoComprar = () => (
-    <Button style={styles.button}
-        mode="contained"
-        contentStyle={{ height: 55 }}
-        onPress={() => console.log('Pressed')}>
-        COMPRAR
-    </Button>
-);
+  const BotãoComprar = () => {
+    const { user } = useAuth(); // Obtém o usuário do contexto
+
+    const handlePress = async () => {
+        const amountToAdd = 10; // Defina o valor que deseja adicionar
+
+        try {
+            const response = await axios.post(`${API_URL}/credits/add`, {
+                amount: amountToAdd,
+            });
+
+            if (response.status === 200) {
+                console.log('Créditos atualizados:', response.data.credits);
+            } else {
+                console.error('Erro ao adicionar créditos:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
+    return (
+        <Button style={styles.button}
+            mode="contained"
+            contentStyle={{ height: 55 }}
+            onPress={handlePress}>
+            COMPRAR
+        </Button>
+    );
+};
+
 
 const BotãoEditarConta = () => (
     <Button style={styles.botaoPfl}
