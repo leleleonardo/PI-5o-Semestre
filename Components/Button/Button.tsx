@@ -3,7 +3,7 @@ import { Button } from 'react-native-paper';
 import { router, useRouter } from 'expo-router';
 import axios from 'axios';
 import React from 'react';
-import { API_URL } from './config';
+import { API_URL } from '../../config';
 import { useAuth } from '../../context/auth';
 
 
@@ -126,7 +126,7 @@ const BotãoSair = () => (
     <Button style={styles.button}
         mode="contained"
         contentStyle={{ height: 55 }}
-        onPress={() => console.log('Pressed')}>
+        onPress={() => router.push('/')}>
         SAIR
     </Button>
 );
