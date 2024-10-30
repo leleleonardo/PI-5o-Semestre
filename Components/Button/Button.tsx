@@ -5,6 +5,7 @@ import axios from 'axios';
 import React from 'react';
 import { API_URL } from '../../config';
 import { useAuth } from '../../context/auth';
+import { View, Text, TextInput } from 'react-native';
 
 interface BotãoJogarProps {
     consoleName: string; // Definindo que consoleName é uma string
@@ -66,15 +67,18 @@ const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
     );
   };
 
-  const BotãoComprar = () => {
+  const BotãoComprar: React.FC<{ creditsAmount: number }> = ({ creditsAmount }) => {
     const { user } = useAuth(); // Obtém o usuário do contexto
 
     const handlePress = async () => {
-        const amountToAdd = 10; // Defina o valor que deseja adicionar
+        if (!user || isNaN(creditsAmount) || creditsAmount <= 0) {
+            alert('Por favor, insira um valor válido.');
+            return;
+        }
 
         try {
             const response = await axios.post(`${API_URL}/credits/add`, {
-                amount: amountToAdd,
+                amount: creditsAmount, // Envia o valor dos créditos editados
             });
 
             if (response.status === 200) {
@@ -134,13 +138,18 @@ const BotãoSair = () => (
     </Button>
 );
 
-const BotãoCreditos = () => (
-    <Button style={styles.botaoText}
-        mode="contained"
-        contentStyle={{ height: 55 }}
-        onPress={() => console.log('Pressed')}>
-        5 créditos/min
-    </Button>
+const BotãoCreditos: React.FC<{ creditsAmount: string; setCreditsAmount: (value: string) => void }> = ({ creditsAmount, setCreditsAmount }) => (
+    <View>
+        <TextInput
+            style={[styles.input, { backgroundColor: '#000000', color: '#ffffff', textAlign: 'center' }]} // Campo preto com texto branco e texto centralizado
+            placeholder="Insira um valor"
+            placeholderTextColor="#cccccc" // Cor do texto do placeholder
+            value={creditsAmount}
+            onChangeText={setCreditsAmount}
+            keyboardType="numeric" // Define o teclado numérico
+        />
+        <Text style={{ textAlign: 'center', marginTop: 1, color: '#ffffff' }}>créditos</Text> {/* Texto "créditos" centralizado */}
+    </View>
 );
 
 const styles = StyleSheet.create({
@@ -170,7 +179,15 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderRadius: 30,
         alignContent: "center",
-    }
+    },
+    input: {
+        height: 35,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingLeft: 10,
+        marginBottom: 10,
+    },
 })
 
 export { BotãoFila, BotãoCreditos, BotãoComprar, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair, BotãoJogar };
