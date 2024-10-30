@@ -3,8 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
 import Cardbox from '../Components/Card/Card';
-import  {Console1, Console2 } from '../Components/Card/Console';
-import { BotãoJogar } from '../Components/Button/Button';
+import  { Console2 } from '../Components/Card/Console';
+
 
 export default function Selecao() {
     return (
@@ -12,10 +12,10 @@ export default function Selecao() {
             <Cardbox>
                 <Text style={styles.title}>JOGAR</Text>
                 <Fundo>
-                    <Console2></Console2>
-                    <Console2></Console2>
-                    <Console2></Console2>
-                    <Console2></Console2>
+                    <Console2 consoleName="PS5" />
+                    <Console2 consoleName="XBOX" />
+                    <Console2 consoleName="VR" />
+                    
                 </Fundo>
 
             </Cardbox>

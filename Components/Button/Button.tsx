@@ -6,6 +6,9 @@ import React from 'react';
 import { API_URL } from '../../config';
 import { useAuth } from '../../context/auth';
 
+interface BotãoJogarProps {
+    consoleName: string; // Definindo que consoleName é uma string
+}
 
 const BotãoFila = () => {
     return (
@@ -18,7 +21,7 @@ const BotãoFila = () => {
     )
 };
 
-const BotãoJogar = () => { // Passando username como prop
+const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
     const { user } = useAuth(); // Obtendo o usuário do contexto
     const username = user.username; // Acessando o username
   
@@ -40,7 +43,7 @@ const BotãoJogar = () => { // Passando username como prop
                 user: username, // Nome do usuário
                 dateTime: dateTime, // Data e hora da inserção
                 positionFila: positionFila, // Posição na fila
-                console: 'Nome do Console', // Dado fixo do console
+                console: consoleName, // Dado fixo do console
             });
 
             if (response.status === 201) {
