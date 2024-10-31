@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { BotãoComprar, BotãoCreditos } from '../Button/Button';
+import { useAuth } from '../../context/auth';
+//import axios from 'axios';
 
 
 
-const PurchaseCard: React.FC = ({ }) => {
+const PurchaseCard: React.FC = () => {
+  const [creditsAmount, setCreditsAmount] = useState<string>(''); // Estado para o valor de créditos
+  const { user } = useAuth(); // Obtém o usuário do contexto
+
   return (
-    <View style={styles.balanceCard}>
-      {/* Título "SALDO" */}
-      <Text style={styles.heading}>COMPRAR</Text>
-      <BotãoCreditos></BotãoCreditos>
-      <BotãoComprar />
-      
-    </View>
+      <View style={styles.balanceCard}>
+          {/* Título "COMPRAR" */}
+          <Text style={styles.heading}>COMPRAR</Text>
+
+          {/* Botão Créditos com TextInput */}
+          <BotãoCreditos 
+              creditsAmount={creditsAmount} 
+              setCreditsAmount={setCreditsAmount} 
+          />
+
+          {/* Botão Comprar */}
+          <BotãoComprar creditsAmount={parseFloat(creditsAmount)} />
+      </View>
   );
 };
 

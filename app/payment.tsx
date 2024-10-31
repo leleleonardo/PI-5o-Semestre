@@ -14,7 +14,7 @@ export default function Payment() {
 
                 <Cardbox>
                     <Text style={styles.title}>CRÉDITOS</Text>
-                    <BalanceCard balance={35}></BalanceCard>
+                    <BalanceCard></BalanceCard>
                     <PurchaseCard></PurchaseCard>
                     
                     

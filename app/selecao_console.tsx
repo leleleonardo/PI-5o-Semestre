@@ -3,8 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
 import Cardbox from '../Components/Card/Card';
-import  {Console1, Console2 } from '../Components/Card/Console';
-import { BotãoJogar } from '../Components/Button/Button';
+import { Console2 } from '../Components/Card/Console';
 
 export default function Selecao() {
     return (
@@ -12,15 +11,12 @@ export default function Selecao() {
             <Cardbox>
                 <Text style={styles.title}>JOGAR</Text>
                 <Fundo>
-                    <Console2></Console2>
-                    <Console2></Console2>
-                    <Console2></Console2>
-                    <Console2></Console2>
+                    <Console2 consoleName="PS5" />
+                    <Console2 consoleName="XBOX" />
+                    <Console2 consoleName="VR" />
                 </Fundo>
-
             </Cardbox>
-            <View style={styles.footer}>
-            </View>
+            <View style={styles.footer} />
             <Footer />
         </View>
     );
@@ -40,12 +36,6 @@ const styles = StyleSheet.create({
         color: 'white',
         marginBottom: 20,
     },
-    message: {
-        fontSize: 16,
-        textAlign: 'center',
-        color: 'white',
-        marginBottom: 10,
-    },
     footer: {
         position: 'absolute',
         bottom: 20,
@@ -53,9 +43,5 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '100%',
         paddingHorizontal: 20,
-    },
-    botaoContainer: {
-        width: '100%', 
-        alignItems: 'center', 
     },
 });
