@@ -18,22 +18,22 @@ interface Console2Props {
 }
 
 const Console2: React.FC<Console2Props> = ({ consoleName }) => {
-  const { user } = useAuth(); // Obtenha o usuário do contexto
+    const { user } = useAuth(); // Obtenha o usuário do contexto
+    console.log(user); // Verifique os dados do usuário
 
-  return (
-      <Card style={styles.consoleCard}>
-          <Card.Content>
-            <Text style={styles.title}>{consoleName}</Text>
-              <Text style={styles.message}>Tempo de espera: 30 minutos</Text>
-              {user.username ? (
-                   <BotãoJogar consoleName={consoleName} /> // Passando o nome do console
-              ) : (
-                  <Text>Faça login para jogar.</Text>
-              )}
-
-          </Card.Content>
-      </Card>
-  );
+    return (
+        <Card style={styles.consoleCard}>
+            <Card.Content>
+                <Text style={styles.title}>{consoleName}</Text>
+                <Text style={styles.message}>Tempo de espera: 30 minutos</Text>
+                {user.username ? (
+                    <BotãoJogar consoleName={consoleName} /> // Passando o nome do console
+                ) : (
+                    <Text>Faça login para jogar.</Text>
+                )}
+            </Card.Content>
+        </Card>
+    );
 };
 
 const styles = StyleSheet.create({

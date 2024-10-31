@@ -25,7 +25,7 @@ const BotãoFila = () => {
 const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
     const { user } = useAuth(); // Obtendo o usuário do contexto
     const username = user.username; // Acessando o username
-  
+
     const handlePress = async () => {
         const dateTime = new Date().toISOString(); // Obtém a data e hora atual
 
@@ -39,6 +39,7 @@ const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
                 return `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
             };
 
+            // Enviando o POST para a fila
             const response = await axios.post(`${API_URL}/queues`, {
                 id: generateUniqueId(),  // ID gerado
                 user: username, // Nome do usuário
@@ -50,13 +51,13 @@ const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
             if (response.status === 201) {
                 router.push('/selecao_console');
             } else {
-                console.error('Erro ao inclusão a fila:', response.statusText);
+                console.error('Erro ao incluir na fila:', response.statusText);
             }
         } catch (error) {
             console.error('Erro:', error);
         }
     };
-  
+
     return (
         <Button style={styles.button}
             mode="contained"
@@ -65,7 +66,8 @@ const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
             JOGAR
         </Button>
     );
-  };
+};
+
 
   const BotãoComprar: React.FC<{ creditsAmount: number }> = ({ creditsAmount }) => {
     const { user } = useAuth(); // Obtém o usuário do contexto

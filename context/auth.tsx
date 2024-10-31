@@ -54,8 +54,9 @@ export function useAuth() {
 
 */
 
-import { router } from "expo-router"
-import { createContext, ReactNode, useContext, useState } from "react"
+import axios from 'axios'; // Certifique-se de importar o Axios
+import { router } from "expo-router";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 interface IUserLogin {
     email: string;
@@ -64,39 +65,50 @@ interface IUserLogin {
 }
 
 interface IAuthContext {
-    user: IUserLogin
-    setUser: (user: IUserLogin) => void
-    handleLogin: () => void
+    user: IUserLogin;
+    setUser: (user: IUserLogin) => void;
+    handleLogin: () => void;
 }
 
 interface IAuthProviderProps {
-    children: ReactNode
+    children: ReactNode;
 }
 
-const AuthContext = createContext<IAuthContext>({} as IAuthContext)
+const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<IUserLogin>({ email: '', password: '' })
+    const [user, setUser] = useState<IUserLogin>({ email: '', password: '' });
 
-    const handleLogin = () => {
-        
-
-        if (user.email === "admin" && user.password === "admin") {
-            
-            setUser({ ...user, username: user.email });
+    const handleLogin = async () => {
+        try {
+            console.log("Tentando login com:", {
+                email: user.email,
+                password: user.password,
+            });
+    
+            const response = await axios.post('http://192.168.56.1:3000/api/auth/login', {
+                email: user.email,
+                password: user.password,
+            });
+    
+            console.log("Resposta do servidor:", response.data);
+    
+            localStorage.setItem('token', response.data.token);
+            setUser({ ...user, username: response.data.username });
             router.push('/home');
-        } else {
-            
+        } catch (error) {
+            console.error("Erro durante login:", error.response ? error.response.data : error.message);
             alert('Email ou senha inválidos!');
         }
-    }
+    };
+    
 
     return (
         <AuthContext.Provider value={{ user, setUser, handleLogin }}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
 
 export function useAuth() {
     const context = useContext(AuthContext);
