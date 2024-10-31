@@ -20,7 +20,7 @@ const BotãoJogar = () => {
         <Button style={styles.button}
             mode="contained"
             contentStyle={{ height: 55 }}
-            onPress={() => router.push('/selecao_console')}>
+            onPress={() => router.push('/confirmation')}>
             JOGAR
         </Button>
     )
@@ -32,6 +32,15 @@ const BotãoComprar = () => (
         contentStyle={{ height: 55 }}
         onPress={() => console.log('Pressed')}>
         COMPRAR
+    </Button>
+);
+
+const BotãoConfirmar = () => (
+    <Button style={styles.button}
+        mode="contained"
+        contentStyle={{ height: 55 }}
+        onPress={() => console.log('Pressed')}>
+        CONFIRMAR
     </Button>
 );
 
@@ -68,6 +77,14 @@ const BotãoSair = () => (
         contentStyle={{ height: 55 }}
         onPress={() => console.log('Pressed')}>
         SAIR
+    </Button>
+);
+const BotãoCancelar = () => (
+    <Button 
+        mode="text"
+        contentStyle={{ height: 55 }}
+        onPress={() => console.log('Pressed')}>
+        CANCELAR
     </Button>
 );
 
@@ -110,4 +127,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export { BotãoFila, BotãoCreditos, BotãoComprar, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair, BotãoJogar };
+export { BotãoFila, BotãoCreditos, BotãoComprar, BotãoConfirmar, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair, BotãoJogar, BotãoCancelar };
