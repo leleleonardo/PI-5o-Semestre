@@ -18,6 +18,7 @@ export default function Home() {
                 <Text style={styles.title}>JOGAR</Text>
                 <Text style={styles.message}>Nenhum console selecionado. Clique em "COMEÇAR A JOGAR" para selecionar um console.</Text>
                 <View style={styles.botaoContainer}>
+
                     <BotãoFila />
                 </View>
             </Cardbox>
