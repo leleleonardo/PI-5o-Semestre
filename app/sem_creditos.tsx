@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
 import Cardbox from '../Components/Card/Card';
-import { BotãoCancelar, BotãoComprar, BotãoConfirmar, BotãoEditarConta, BotãoSair } from '../Components/Button/Button';
+import { BotaoCancelar, BotaoComprar, BotaoConfirmar, BotaoEditarConta, BotaoSair } from '../Components/Button/Button';
 
 export default function ConfirmationPage() {
     return (
@@ -12,8 +12,8 @@ export default function ConfirmationPage() {
                 <Text style={styles.title}>CRÉDITOS INSUFICIENTES</Text>
                 <Fundo>
                     <Text style={styles.message}>Seu Saldo é de X créditos. Para entrar nessa fila, você precisa de X créditos.</Text>
-                    <BotãoComprar />
-                    <BotãoCancelar />
+                    <BotaoComprar />
+                    <BotaoCancelar />
                 </Fundo>
             </Cardbox>
                 <Footer />

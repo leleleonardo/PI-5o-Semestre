@@ -7,11 +7,15 @@ import { API_URL } from '../../config';
 import { useAuth } from '../../context/auth';
 import { View, Text, TextInput } from 'react-native';
 
-interface BotãoJogarProps {
-    consoleName: string; // Definindo que consoleName é uma string
+interface BotaoJogarProps {
+    consoleName: string; 
 }
 
-const BotãoFila = () => {
+interface BotaoSairProps {
+    onLogout: () => Promise<void>; 
+}
+
+const BotaoFila = () => {
     return (
         <Button style={styles.button}
             mode="contained"
@@ -22,7 +26,7 @@ const BotãoFila = () => {
     )
 };
 
-const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
+const BotaoJogar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
     const { user } = useAuth(); // Obtendo o usuário do contexto
     const username = user.username; // Acessando o username
 
@@ -69,7 +73,7 @@ const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
 };
 
 
-  const BotãoComprar: React.FC<{ creditsAmount: number }> = ({ creditsAmount }) => {
+  const BotaoComprar: React.FC<{ creditsAmount: number }> = ({ creditsAmount }) => {
     const { user } = useAuth(); // Obtém o usuário do contexto
 
     const handlePress = async () => {
@@ -104,7 +108,7 @@ const BotãoJogar: React.FC<BotãoJogarProps> = ({ consoleName }) => {
 };
 
 
-const BotãoConfirmar = () => (
+const BotaoConfirmar = () => (
     <Button style={styles.button}
         mode="contained"
         contentStyle={{ height: 55 }}
@@ -113,7 +117,7 @@ const BotãoConfirmar = () => (
     </Button>
 );
 
-const BotãoEditarConta = () => (
+const BotaoEditarConta = () => (
     <Button style={styles.botaoPfl}
         mode="contained"
         contentStyle={{ height: 55 }}
@@ -122,7 +126,7 @@ const BotãoEditarConta = () => (
     </Button>
 );
 
-const BotãoEditarPgto = () => (
+const BotaoEditarPgto = () => (
     <Button style={styles.botaoPfl}
         mode="contained"
         contentStyle={{ height: 55 }}
@@ -131,7 +135,7 @@ const BotãoEditarPgto = () => (
     </Button>
 );
 
-const BotãoHist = () => (
+const BotaoHist = () => (
     <Button style={styles.botaoPfl}
         mode="contained"
         contentStyle={{ height: 55 }}
@@ -140,15 +144,16 @@ const BotãoHist = () => (
     </Button>
 );
 
-const BotãoSair = () => (
+const BotaoSair: React.FC<BotaoSairProps> = ({ onLogout }) => (
     <Button style={styles.button}
         mode="contained"
         contentStyle={{ height: 55 }}
-        onPress={() => router.push('/')}>
+        onPress={onLogout}> {/* Chama a função passada como prop */}
         SAIR
     </Button>
 );
-const BotãoCancelar = () => (
+
+const BotaoCancelar = () => (
     <Button 
         mode="text"
         contentStyle={{ height: 55 }}
@@ -157,7 +162,7 @@ const BotãoCancelar = () => (
     </Button>
 );
 
-const BotãoCreditos: React.FC<{ creditsAmount: string; setCreditsAmount: (value: string) => void }> = ({ creditsAmount, setCreditsAmount }) => (
+const BotaoCreditos: React.FC<{ creditsAmount: string; setCreditsAmount: (value: string) => void }> = ({ creditsAmount, setCreditsAmount }) => (
     <View>
         <TextInput
             style={[styles.input, { backgroundColor: '#000000', color: '#ffffff', textAlign: 'center' }]} // Campo preto com texto branco e texto centralizado
@@ -209,4 +214,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export { BotãoFila, BotãoCreditos, BotãoComprar, BotãoConfirmar, BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair, BotãoJogar, BotãoCancelar };
+export { BotaoFila, BotaoCreditos, BotaoComprar, BotaoConfirmar, BotaoEditarConta, BotaoEditarPgto, BotaoHist, BotaoSair, BotaoJogar, BotaoCancelar };

@@ -2,7 +2,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import Cardbox from '../Components/Card/Card'
 import { useState } from 'react'
 import { Footer } from '../Components/Footer/footer'
-import { BotãoFila } from '../Components/Button/Button'
+import { BotaoFila } from '../Components/Button/Button'
 
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
                 <Text style={styles.message}>Nenhum console selecionado. Clique em "COMEÇAR A JOGAR" para selecionar um console.</Text>
                 <View style={styles.botaoContainer}>
 
-                    <BotãoFila />
+                    <BotaoFila />
                 </View>
             </Cardbox>
             <Footer></Footer>

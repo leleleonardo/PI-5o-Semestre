@@ -4,7 +4,7 @@ import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
 import Cardbox from '../Components/Card/Card';
 import {Console1, Console2 }from '../Components/Card/Console';
-import { BotãoJogar } from '../Components/Button/Button';
+import { BotaoJogar } from '../Components/Button/Button';
 
 export default function Fila() {
     return (
@@ -18,7 +18,7 @@ export default function Fila() {
                     <Console1></Console1>
                 </Fundo>
                 <View style={styles.botaoContainer}>
-                <BotãoJogar />
+                <BotaoJogar consoleName={''} />
                 </View>
             </Cardbox>
             <View style={styles.footer}>

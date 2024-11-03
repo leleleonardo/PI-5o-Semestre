@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { BotãoComprar, BotãoCreditos } from '../Button/Button';
+import { BotaoComprar, BotaoCreditos } from '../Button/Button';
 import { useAuth } from '../../context/auth';
 //import axios from 'axios';
 
@@ -15,14 +15,14 @@ const PurchaseCard: React.FC = () => {
           {/* Título "COMPRAR" */}
           <Text style={styles.heading}>COMPRAR</Text>
 
-          {/* Botão Créditos com TextInput */}
-          <BotãoCreditos 
+          {/* Botao Créditos com TextInput */}
+          <BotaoCreditos 
               creditsAmount={creditsAmount} 
               setCreditsAmount={setCreditsAmount} 
           />
 
-          {/* Botão Comprar */}
-          <BotãoComprar creditsAmount={parseFloat(creditsAmount)} />
+          {/* Botao Comprar */}
+          <BotaoComprar creditsAmount={parseFloat(creditsAmount)} />
       </View>
   );
 };

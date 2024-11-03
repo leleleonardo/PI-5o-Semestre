@@ -1,108 +1,61 @@
-/*import { router } from "expo-router"
-import { createContext, ReactNode, useContext, useState } from "react"
-import axios from 'axios'*/
-
-/*interface IUserLogin {
-    email: string;
-    password: string;
-    username?: string; // Adicione o username como opcional
-}
-
-interface IAuthContext {
-    user: IUserLogin
-    setUser: (user: IUserLogin) => void
-    handleLogin: () => void
-}
-
-interface IAuthProviderProps {
-    children: ReactNode
-}
-
-const AuthContext = createContext<IAuthContext>({} as IAuthContext)
-
-export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<IUserLogin>({ email: '', password: '' })
-
-    const handleLogin = async () => {
-        try {
-            const response = await axios.post('https://localhost:3000/api/auth/login', { //mudar a url 
-                email: user.email,
-                password: user.password,
-            })
-
-            if (response.status === 200) {
-                 // Armazena o email como username
-                 setUser({ ...user, username: user.email }); // Aqui é onde você define o username
-                 router.push('/home');
-            }
-        } catch (error) {
-            alert('Email ou senha inválidos!')
-        }
-    }
-
-    return (
-        <AuthContext.Provider value={{ user, setUser, handleLogin }}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
-
-export function useAuth() {
-    const context = useContext(AuthContext);
-    return context;
-}
-
-*/
-
-import axios from 'axios'; // Certifique-se de importar o Axios
+import React, { createContext, useContext, useState } from "react";
+import { ReactNode } from "react";
+import api from "../Services/api";
 import { router } from "expo-router";
-import { createContext, ReactNode, useContext, useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IUserLogin {
+    username: string; // Alterado para string
     email: string;
     password: string;
-    username?: string;
 }
 
 interface IAuthContext {
     user: IUserLogin;
     setUser: (user: IUserLogin) => void;
-    handleLogin: () => void;
-}
-
-interface IAuthProviderProps {
-    children: ReactNode;
+    handleLogin: (email: string, password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
-export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<IUserLogin>({ email: '', password: '' });
+export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
+    const [user, setUser] = useState<IUserLogin>({ username: '', email: '', password: '' });
 
-    const handleLogin = async () => {
+    const handleLogin = async (email: string, password: string) => {
         try {
-            console.log("Tentando login com:", {
-                email: user.email,
-                password: user.password,
-            });
+            console.log("Tentando login com:", { email, password });
     
-            const response = await axios.post('http://192.168.56.1:3000/api/auth/login', {
-                email: user.email,
-                password: user.password,
-            });
+            const existingToken = await AsyncStorage.getItem('token');
+            if (existingToken) {
+                return; 
+            }
     
-            console.log("Resposta do servidor:", response.data);
+            const response = await api.login(email, password);
     
-            localStorage.setItem('token', response.data.token);
-            setUser({ ...user, username: response.data.username });
-            router.push('/home');
+            console.log("Resposta do servidor após login:", response);
+    
+            if (!response || !response.token) {
+                await AsyncStorage.removeItem('token');
+                throw new Error('Invalid login credentials');
+            }
+    
+            const { token, username } = response; 
+            
+            await AsyncStorage.setItem('token', token); 
+            setUser({ username, email, password });
+            
+            router.push('/home'); 
         } catch (error) {
-            console.error("Erro durante login:", error.response ? error.response.data : error.message);
-            alert('Email ou senha inválidos!');
+            console.error("Erro durante login:", error);
+            if (error instanceof Error && error.message.includes('Invalid')) {
+                alert('Credenciais inválidas');
+            } else {
+                alert('Ocorreu um erro ao fazer login');
+            }
+            throw error;
         }
     };
     
-
     return (
         <AuthContext.Provider value={{ user, setUser, handleLogin }}>
             {children}
@@ -112,5 +65,8 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
 
 export function useAuth() {
     const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
     return context;
 }

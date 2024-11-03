@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-paper';
-import { BotãoJogar } from '../Button/Button';
+import { BotaoJogar } from '../Button/Button';
 import { useAuth } from '../../context/auth';
 //import axios from 'axios';
 
@@ -27,7 +27,7 @@ const Console2: React.FC<Console2Props> = ({ consoleName }) => {
                 <Text style={styles.title}>{consoleName}</Text>
                 <Text style={styles.message}>Tempo de espera: 30 minutos</Text>
                 {user.username ? (
-                    <BotãoJogar consoleName={consoleName} /> // Passando o nome do console
+                    <BotaoJogar consoleName={consoleName} /> // Passando o nome do console
                 ) : (
                     <Text>Faça login para jogar.</Text>
                 )}
@@ -102,7 +102,7 @@ const Console2: React.FC<Console2Props> = ({ consoleName }) => {
                     Tempo de espera: {waitTime !== null ? `${waitTime} minutos` : 'Carregando...'}
                 </Text>
                 {user.username ? (
-                    <BotãoJogar consoleName={consoleName} /> // Passando o nome do console
+                    <BotaoJogar consoleName={consoleName} /> // Passando o nome do console
                 ) : (
                     <Text>Faça login para jogar.</Text>
                 )}

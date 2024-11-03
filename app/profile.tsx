@@ -1,26 +1,38 @@
-import { View, StyleSheet, Text } from 'react-native'
-import Cardbox from '../Components/Card/Card'
-import { BotãoEditarConta, BotãoEditarPgto, BotãoHist, BotãoSair } from '../Components/Button/Button'
-import { Footer } from '../Components/Footer/footer'
-
+import React from 'react';
+import { View, StyleSheet, Text, Alert } from 'react-native';
+import Cardbox from '../Components/Card/Card';
+import { BotaoEditarConta, BotaoEditarPgto, BotaoHist, BotaoSair } from '../Components/Button/Button';
+import { Footer } from '../Components/Footer/footer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
 
 export default function Profile() {
+    const handleLogout = async () => {
+        try {
+            await AsyncStorage.removeItem('token');
+            router.push('/');
+        } catch (error) {
+            console.error("Erro ao fazer logout:", error);
+            Alert.alert('Erro', 'Ocorreu um erro ao sair da conta.');
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Cardbox>
                 <Text style={styles.title}>SUA CONTA</Text>
                 <View style={styles.buttonContainer}>
-                    <BotãoEditarConta />
-                    <BotãoEditarPgto />
-                    <BotãoHist />
+                    <BotaoEditarConta />
+                    <BotaoEditarPgto />
+                    <BotaoHist />
                 </View>
                 <View style={styles.sairContainer}>
-                    <BotãoSair />
+                    <BotaoSair onLogout={handleLogout} /> {/* Passando a função de logout */}
                 </View>
             </Cardbox>
             <Footer />
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -54,4 +66,4 @@ const styles = StyleSheet.create({
         color: 'white',
         marginBottom: 20,
     },
-})
+});
