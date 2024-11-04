@@ -3,29 +3,22 @@ import { View, Text, StyleSheet } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
 import Cardbox from '../Components/Card/Card';
-import {Console1, Console2 }from '../Components/Card/Console';
-import { BotaoJogar } from '../Components/Button/Button';
+import { BotaoCancelar, BotaoConfirmar, BotaoEditarConta, BotaoSair } from '../Components/Button/Button';
 
-export default function Fila() {
+export default function ConfirmationPage() {
     return (
         <View style={styles.container}>
             <Cardbox>
-                <Text style={styles.title}>JOGAR</Text>
+                <Text style={styles.title}>CONFIRMAÇÃO</Text>
                 <Fundo>
-                    <Console1></Console1>
-                    <Console1></Console1>
-                    <Console1></Console1>
-                    <Console1></Console1>
+                    <Text style={styles.message}>Seu Saldo é de X créditos. Serão descontados X créditos de sua conta quando chegar sua vez no console.</Text>
+                    <BotaoConfirmar />
+                    <BotaoCancelar />
                 </Fundo>
-                <View style={styles.botaoContainer}>
-                <BotaoJogar consoleName={''} />
-                </View>
             </Cardbox>
-            <View style={styles.footer}>
-            </View>
-            <Footer />
+                <Footer />
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -37,16 +30,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
+        position: "relative",
+        top: 20,
         fontSize: 24,
         textAlign: 'center',
         color: 'white',
         marginBottom: 20,
     },
     message: {
-        fontSize: 16,
+        position: "relative",
+        fontSize: 26,
         textAlign: 'center',
         color: 'white',
-        marginBottom: 10,
+
     },
     footer: {
         position: 'absolute',
@@ -57,7 +53,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     botaoContainer: {
-        width: '100%', 
-        alignItems: 'center', 
+        width: '100%',
+        alignItems: 'center',
     },
 });

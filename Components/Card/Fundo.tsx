@@ -18,6 +18,9 @@ const Fundo: React.FC<FundoProps> = ({ children }) => (
 
 const styles = StyleSheet.create({
     card: {
+        position: "relative",
+        top: 30,
+        right: 7,
         width: 310,
         height: 400,
         backgroundColor: '#3A3560',

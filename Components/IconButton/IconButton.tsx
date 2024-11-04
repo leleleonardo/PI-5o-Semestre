@@ -36,4 +36,13 @@ const BtIconePgt = () => (
   />
 );
 
-export { BtIconeM, BtIconeAct, BtIconePgt };
+
+const BtVoltar = () => (
+  <IconButton
+  icon="back"
+  iconColor={MD3Colors.error95}
+  size={40}
+  onPress={() => router.push('/payment')}
+/>
+);
+export { BtIconeM, BtIconeAct, BtIconePgt, BtVoltar };
