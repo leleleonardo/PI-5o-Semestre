@@ -15,9 +15,10 @@ const api = {
         }
     },
 
-    async login(email: string, password: string) {
+    async login(username: string, password: string) {
         try {
-            const response = await axiosInstance.post('/api/auth/login', { email, password });
+            const response = await axiosInstance.post('/api/auth/login', { username, password });
+            console.log("Resposta do login:", response.data); // Adicione este log
             return response.data;
         } catch (error) {
             console.error('Erro ao fazer login:', error);

@@ -1,2 +1,2 @@
 // config.js
-export const API_URL = 'http://localhost:3000/api';
+export const API_URL = 'https://api-5sem-r2ds.onrender.com';
