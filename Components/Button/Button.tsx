@@ -3,9 +3,12 @@ import { Button } from 'react-native-paper';
 import { router, useRouter } from 'expo-router';
 import axios from 'axios';
 import React from 'react';
-import { API_URL } from '../../config';
 import { useAuth } from '../../context/auth';
 import { View, Text, TextInput } from 'react-native';
+import api from "../../Services/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '../../config';
+
 
 interface BotaoJogarProps {
     consoleName: string; 
@@ -20,53 +23,67 @@ const BotaoFila = () => {
         <Button style={styles.button}
             mode="contained"
             contentStyle={{ height: 55 }}
-            onPress={() => router.push('/confirmation')}>
+            onPress={() => router.push('/selecao_console')}>
             JOGAR
         </Button>
     )
 };
 
+
 const BotaoJogar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
-    const { user } = useAuth(); // Obtendo o usuário do contexto
-    const username = user.username; // Acessando o username
+    const { user } = useAuth();
+    const username = user.username;
+    const router = useRouter();
 
     const handlePress = async () => {
-        const dateTime = new Date().toISOString(); // Obtém a data e hora atual
+        const dateTime = new Date().toISOString();
 
         try {
-            // Primeiro, busque a quantidade atual de filas para definir a posição
-            const queueResponse = await axios.get(`${API_URL}/queues`);
-            const positionFila = queueResponse.data.length + 1; // Incrementa o total atual
+            // Obtém a lista de filas usando a api.getQueues
+            const queueResponse = await api.getQueues(consoleName);
+            const positionFila = queueResponse.length + 1; // A quantidade de filas atual
 
-            // Cria um ID único
-            const generateUniqueId = () => {
-                return `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-            };
-
-            // Enviando o POST para a fila
-            const response = await axios.post(`${API_URL}/queues`, {
-                id: generateUniqueId(),  // ID gerado
+            // Dados a serem enviados
+            const data = {
+                ID: `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`, // ID único
                 user: username, // Nome do usuário
-                dateTime: dateTime, // Data e hora da inserção
+                dateTime: dateTime, // Data e hora
                 positionFila: positionFila, // Posição na fila
-                console: consoleName, // Dado fixo do console
-            });
+                console: consoleName, // Nome do console
+            };
+            
+            // Log dos dados que serão enviados
+            console.log('Dados enviados para criar a fila:', JSON.stringify(data, null, 2)); // Usando JSON.stringify para melhor visualização
+     
+            // Envia a requisição POST para criar a nova fila usando o método createQueue
+            const response = await api.createQueue(data);
+            console.log('Resposta do servidor:', response); // Log da resposta do servidor
 
-            if (response.status === 201) {
-                router.push('/selecao_console');
+            // Verifica a resposta da requisição
+            if (response) { // Se a resposta estiver presente, assume que a criação foi bem-sucedida
+                console.log('Fila criada com sucesso:', response);
+                router.push('/selecao_console'); // Redireciona após a criação da fila
             } else {
-                console.error('Erro ao incluir na fila:', response.statusText);
+                console.error('Erro ao incluir na fila: Resposta vazia');
             }
         } catch (error) {
-            console.error('Erro:', error);
+            console.error('Erro ao fazer a requisição:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Dados da resposta de erro:', error.response.data);
+                console.error('Status da resposta de erro:', error.response.status);
+            } else {
+                console.error('Erro não relacionado ao Axios:', error);
+            }
         }
     };
 
     return (
-        <Button style={styles.button}
+        <Button
+            style={styles.button}
             mode="contained"
             contentStyle={{ height: 55 }}
-            onPress={handlePress}>
+            onPress={handlePress}
+        >
             JOGAR
         </Button>
     );

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { ReactNode } from "react";
 import api from "../Services/api";
 import { router } from "expo-router";
@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IUserLogin {
     username: string; // Mantido como string
-    password: string;
 }
 
 interface IAuthContext {
@@ -18,7 +17,7 @@ interface IAuthContext {
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
-    const [user, setUser] = useState<IUserLogin>({ username: '', password: '' });
+    const [user, setUser] = useState<IUserLogin>({ username: '' });
 
     const handleLogin = async (username: string, password: string) => {
         try {
@@ -46,7 +45,9 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
             const storedToken = await AsyncStorage.getItem('token');
             console.log("Token armazenado:", storedToken); 
     
-            setUser({ username, password });
+            setUser({ username });
+
+            console.log("Token salvo:", token);
             router.push('/home'); 
         } catch (error) {
             console.error("Erro durante login:", error);
@@ -58,7 +59,10 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
             throw error;
         }
     };
-    
+       
+    useEffect(() => {
+        console.log("Usuário salvo:", user); // Exibe o usuário salvo após a atualização
+    }, [user]);
     
     return (
         <AuthContext.Provider value={{ user, setUser, handleLogin }}>

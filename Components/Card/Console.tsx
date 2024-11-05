@@ -19,7 +19,7 @@ interface Console2Props {
 
 const Console2: React.FC<Console2Props> = ({ consoleName }) => {
     const { user } = useAuth(); // Obtenha o usuário do contexto
-    console.log(user); // Verifique os dados do usuário
+    console.log("Usuário atual:", user); // Verifique os dados do usuário
 
     return (
         <Card style={styles.consoleCard}>
@@ -34,7 +34,7 @@ const Console2: React.FC<Console2Props> = ({ consoleName }) => {
             </Card.Content>
         </Card>
     );
-};
+};;
 
 const styles = StyleSheet.create({
     consoleCard: {
