@@ -62,7 +62,7 @@ const BotaoJogar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
             // Verifica a resposta da requisição
             if (response) { // Se a resposta estiver presente, assume que a criação foi bem-sucedida
                 console.log('Fila criada com sucesso:', response);
-                router.push('/selecao_console'); // Redireciona após a criação da fila
+                router.push('/confirmation');
             } else {
                 console.error('Erro ao incluir na fila: Resposta vazia');
             }
@@ -129,7 +129,7 @@ const BotaoConfirmar = () => (
     <Button style={styles.button}
         mode="contained"
         contentStyle={{ height: 55 }}
-        onPress={() => console.log('Pressed')}>
+        onPress={() => router.push('/home')}>
         CONFIRMAR
     </Button>
 );
