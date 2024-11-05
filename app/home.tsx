@@ -1,34 +1,45 @@
 import { View, StyleSheet, Text } from 'react-native'
 import Cardbox from '../Components/Card/Card'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Footer } from '../Components/Footer/footer'
-import { BotaoFila } from '../Components/Button/Button'
+import { useAuth } from '../context/auth';
+import DisplayFila from '../Components/Card/DisplayFila'; 
+import api from "../Services/api";
 
+// Defina a interface para a fila
+interface Queue {
+    ID: string; // Defina o tipo correto para ID com base no que sua API retorna
+    console: string; // Adicione a propriedade console
+    positionFila: number; // Adicione a propriedade positionFila
+}
 
 export default function Home() {
+    const [filas, setFilas] = useState<Queue[]>([]); // Use o tipo definido para o estado
+    const { user } = useAuth(); // Presumindo que você tem um contexto de autenticação
 
-    const [filas, setFilas] = useState([])
+    useEffect(() => {
+        const fetchQueues = async () => {
+            try {
+                const queues = await api.getQueuesUser(user.username); // Chama a API para buscar as filas pelo usuário
+                setFilas(queues);
+            } catch (error) {
+                console.error('Erro ao buscar filas:', error);
+            }
+        };
 
-    const cardContent = filas.length === 0
-        ? <Text> Você não está em nenhuma fila. Clique para acessar uma fila</Text>
-        : <Text> Você está nas seguintes filas: {filas.join(', ')}</Text>
+        fetchQueues();
+    }, [user.username]); // Dependência para re-executar se o usuário mudar
+
     return (
         <View style={styles.container}>
             <Cardbox>
                 <Text style={styles.title}>JOGAR</Text>
-                <Text style={styles.message}>Nenhum console selecionado. Clique em "COMEÇAR A JOGAR" para selecionar um console.</Text>
-                <View style={styles.botaoContainer}>
-
-                    <BotaoFila />
-                </View>
+                <DisplayFila filas={filas} /> {/* Renderiza o novo componente com as filas */}
             </Cardbox>
-            <Footer></Footer>
-
-
+            <Footer />
         </View>
-    )
+    );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
