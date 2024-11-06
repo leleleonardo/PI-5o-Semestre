@@ -1,38 +1,40 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Text } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { Card } from 'react-native-paper';
 
 interface FundoProps {
   children: React.ReactNode;
 }
 
-const Fundo: React.FC<FundoProps> = ({ children }) => {
-  console.log('Children fundo:', children);
-  return (
+const Fundo: React.FC<FundoProps> = ({ children }) => (
   <Card style={styles.card}>
-    <Card.Content>
+    <Card.Content style={styles.cardContent}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-      {children}
+        {children}
       </ScrollView>
     </Card.Content>
   </Card>
 );
-};
 
 const styles = StyleSheet.create({
-    card: {
-        position: "relative",
-        top: 30,
-        right: 7,
-        width: 310,
-        height: 400,
-        backgroundColor: '#3A3560',
-        borderRadius: 20,
-    },
-    scrollContent: {
-        paddingHorizontal: 24,
-        paddingVertical: 16,
-    },
+  card: {
+      flex: 1,               // Preenche o espaço disponível no Cardbox
+      backgroundColor: '#3A3560',
+      borderRadius: 20,
+      margin: 5,             // Margem interna opcional para espaçamento
+  },
+  scrollContent: {
+      paddingHorizontal: 24,
+      paddingVertical: 16,
+  },
+  cardContent: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between', 
+    alignItems: 'center',  
+
+},
 });
 
 export default Fundo;
+

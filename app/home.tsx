@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, ScrollView } from 'react-native'
 import Cardbox from '../Components/Card/Card'
 import React, { useEffect, useState } from 'react';
 import { Footer } from '../Components/Footer/footer'
@@ -35,7 +35,9 @@ export default function Home() {
         <View style={styles.container}>
             <Cardbox>
                 <Text style={styles.title}>Aguardando</Text>
-                <DisplayFila filas={filas} />                 
+                <ScrollView contentContainerStyle={styles.scrollContent}>
+                <DisplayFila filas={filas} />
+                </ScrollView>
             </Cardbox>        
             <QueueManagement />  
             <Footer />
@@ -59,14 +61,6 @@ const styles = StyleSheet.create({
         color: 'white',
         marginBottom: 20,
     },
-    message: {
-        position: "relative",
-        top: 130,
-        fontSize: 26,
-        textAlign: 'center',
-        color: 'white',
-        marginBottom: 20,
-    },
     footer: {
         position: 'absolute',
         bottom: 20,
@@ -75,10 +69,9 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 20,
     },
-    botaoContainer: {
-        marginTop: 230,
-        width: '100%', 
-        alignItems: 'center', 
+    scrollContent: {
+        paddingHorizontal: 24,
+        paddingVertical: 16,
     },
     
 })
