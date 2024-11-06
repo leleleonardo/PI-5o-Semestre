@@ -2,10 +2,12 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import { router, useRouter } from 'expo-router';
 import axios from 'axios';
-import React from 'react';
-import { API_URL } from '../../config';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/auth';
 import { View, Text, TextInput } from 'react-native';
+import api from "../../Services/api";
+
+
 
 interface BotaoJogarProps {
     consoleName: string; 
@@ -20,102 +22,133 @@ const BotaoFila = () => {
         <Button style={styles.button}
             mode="contained"
             contentStyle={{ height: 55 }}
-            onPress={() => router.push('/confirmation')}>
+            onPress={() => router.push('/selecao_console')}>
             JOGAR
         </Button>
     )
 };
 
-const BotaoJogar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
-    const { user } = useAuth(); // Obtendo o usuário do contexto
-    const username = user.username; // Acessando o username
 
-    const handlePress = async () => {
-        const dateTime = new Date().toISOString(); // Obtém a data e hora atual
+const BotaoJogar: React.FC<{ consoleName: string }> = ({ consoleName }) => {
+    const router = useRouter();
 
-        try {
-            // Primeiro, busque a quantidade atual de filas para definir a posição
-            const queueResponse = await axios.get(`${API_URL}/queues`);
-            const positionFila = queueResponse.data.length + 1; // Incrementa o total atual
-
-            // Cria um ID único
-            const generateUniqueId = () => {
-                return `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-            };
-
-            // Enviando o POST para a fila
-            const response = await axios.post(`${API_URL}/queues`, {
-                id: generateUniqueId(),  // ID gerado
-                user: username, // Nome do usuário
-                dateTime: dateTime, // Data e hora da inserção
-                positionFila: positionFila, // Posição na fila
-                console: consoleName, // Dado fixo do console
-            });
-
-            if (response.status === 201) {
-                router.push('/selecao_console');
-            } else {
-                console.error('Erro ao incluir na fila:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-        }
+    const handlePress = () => {
+        // Passa o consoleName como um parâmetro de consulta para a URL
+        router.push(`/confirmation?consoleName=${consoleName}`);
     };
 
     return (
-        <Button style={styles.button}
+        <Button
+            style={styles.button}
             mode="contained"
             contentStyle={{ height: 55 }}
-            onPress={handlePress}>
+            onPress={handlePress}
+        >
             JOGAR
         </Button>
     );
 };
 
-
-  const BotaoComprar: React.FC<{ creditsAmount: number }> = ({ creditsAmount }) => {
+interface BotaoComprarProps {
+    creditsAmount: number; // Valor inserido para os créditos
+  }
+  
+  const BotaoComprar: React.FC<BotaoComprarProps> = ({ creditsAmount }) => {
     const { user } = useAuth(); // Obtém o usuário do contexto
+  
+    const handlePress = async () => {
+      // Verifica se o valor é válido
+      if (!user || isNaN(creditsAmount) || creditsAmount <= 0) {
+        alert('Por favor, insira um valor válido.');
+        return;
+      }
+  
+      try {
+        // Envia o valor de créditos para a API
+        const updatedCredits = await api.addCredits(creditsAmount); // API retorna os créditos atualizados após a adição
+        console.log('Créditos atualizados no banco de dados:', updatedCredits);
+        router.push('/payment');
+  
+        // Aqui, você pode atualizar os créditos localmente no contexto ou estado, se necessário
+        // Atualizar os créditos no estado global ou contexto
+        // Exemplo: onCreditUpdate(updatedCredits); // Se você tiver um método para atualizar o estado
+      } catch (error) {
+        console.error('Erro ao adicionar créditos:', error);
+      }
+    };
+  
+    return (
+      <Button
+        style={styles.button}
+        mode="contained"
+        contentStyle={{ height: 55 }}
+        onPress={handlePress}>
+        COMPRAR
+      </Button>
+    );
+  };
+  
+  
+
+const BotaoConfirmar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
+    const { user } = useAuth();
+    const username = user.username;
+    const router = useRouter();
 
     const handlePress = async () => {
-        if (!user || isNaN(creditsAmount) || creditsAmount <= 0) {
-            alert('Por favor, insira um valor válido.');
-            return;
-        }
+        const dateTime = new Date().toISOString();
 
         try {
-            const response = await axios.post(`${API_URL}/credits/add`, {
-                amount: creditsAmount, // Envia o valor dos créditos editados
-            });
+            // Obtém a lista de filas usando a api.getQueues
+            const queueResponse = await api.getQueues(consoleName);
+            const positionFila = queueResponse.length; // A quantidade de filas atual
 
-            if (response.status === 200) {
-                console.log('Créditos atualizados:', response.data.credits);
+            // Dados a serem enviados
+            const data = {
+                ID: `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`, // ID único
+                user: username, // Nome do usuário
+                dateTime: dateTime, // Data e hora
+                positionFila: positionFila, // Posição na fila
+                console: consoleName, // Nome do console
+            };
+            
+            // Log dos dados que serão enviados
+            console.log('Dados enviados para criar a fila:', JSON.stringify(data, null, 2)); // Usando JSON.stringify para melhor visualização
+     
+            // Envia a requisição POST para criar a nova fila usando o método createQueue
+            const response = await api.createQueue(data);
+            console.log('Resposta do servidor:', response); // Log da resposta do servidor
+
+            // Verifica a resposta da requisição
+            if (response) { // Se a resposta estiver presente, assume que a criação foi bem-sucedida
+                console.log('Fila criada com sucesso:', response);
+           
+                router.push('/home');
             } else {
-                console.error('Erro ao adicionar créditos:', response.statusText);
+                console.error('Erro ao incluir na fila: Resposta vazia');
             }
         } catch (error) {
-            console.error('Erro:', error);
+            console.error('Erro ao fazer a requisição:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Dados da resposta de erro:', error.response.data);
+                console.error('Status da resposta de erro:', error.response.status);
+            } else {
+                console.error('Erro não relacionado ao Axios:', error);
+            }
         }
     };
 
     return (
-        <Button style={styles.button}
+        <Button
+            style={styles.button}
             mode="contained"
             contentStyle={{ height: 55 }}
-            onPress={handlePress}>
-            COMPRAR
+            onPress={handlePress}
+        >
+            CONFIRMAR
         </Button>
     );
 };
-
-
-const BotaoConfirmar = () => (
-    <Button style={styles.button}
-        mode="contained"
-        contentStyle={{ height: 55 }}
-        onPress={() => console.log('Pressed')}>
-        CONFIRMAR
-    </Button>
-);
 
 const BotaoEditarConta = () => (
     <Button style={styles.botaoPfl}
@@ -153,14 +186,41 @@ const BotaoSair: React.FC<BotaoSairProps> = ({ onLogout }) => (
     </Button>
 );
 
-const BotaoCancelar = () => (
-    <Button 
-        mode="text"
-        contentStyle={{ height: 55 }}
-        onPress={() => console.log('Pressed')}>
-        CANCELAR
-    </Button>
-);
+interface BotaoCancelarProps {
+    consoleName: string;
+}
+
+const BotaoCancelar: React.FC<BotaoCancelarProps> = ({ consoleName }) => {
+    const handlePress = async () => {
+        try {
+            // Obtém a lista atual de filas para encontrar a maior positionFila
+            const queueResponse = await api.getQueues(consoleName);
+            if (queueResponse.length === 0) {
+                console.log("A fila está vazia. Nada para cancelar.");
+                return;
+            }
+            
+            // Encontra a maior positionFila na coleção
+            const highestPositionFila = Math.max(...queueResponse.map((item: any) => item.positionFila));
+            
+            // Chama o método leaveQueue para deletar a posição mais alta
+            await api.leaveQueue(consoleName, highestPositionFila);
+            console.log(`Fila na posição ${highestPositionFila} foi removida com sucesso do console ${consoleName}`);
+        } catch (error) {
+            console.error("Erro ao cancelar a fila:", error);
+        }
+    };
+
+    return (
+        <Button 
+            mode="text"
+            contentStyle={{ height: 55 }}
+            onPress={handlePress}
+        >
+            CANCELAR
+        </Button>
+    );
+};
 
 const BotaoCreditos: React.FC<{ creditsAmount: string; setCreditsAmount: (value: string) => void }> = ({ creditsAmount, setCreditsAmount }) => (
     <View>

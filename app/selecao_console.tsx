@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
 import Cardbox from '../Components/Card/Card';
@@ -9,12 +9,17 @@ export default function Selecao() {
     return (
         <View style={styles.container}>
             <Cardbox>
+                
                 <Text style={styles.title}>JOGAR</Text>
+                <ScrollView contentContainerStyle={styles.scrollContent}>
                 <Fundo>
+                
                     <Console2 consoleName="PS5" />
                     <Console2 consoleName="XBOX" />
                     <Console2 consoleName="VR" />
+                    
                 </Fundo>
+                </ScrollView>
             </Cardbox>
             <View style={styles.footer} />
             <Footer />
@@ -44,4 +49,9 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 20,
     },
+    scrollContent: {
+        paddingHorizontal: 24,
+        paddingVertical: 16,
+    },
 });
+

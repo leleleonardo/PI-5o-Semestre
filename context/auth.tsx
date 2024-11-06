@@ -1,37 +1,38 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { ReactNode } from "react";
 import api from "../Services/api";
 import { router } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IUserLogin {
-    username: string; // Alterado para string
-    email: string;
-    password: string;
+    username: string; // Mantido como string
 }
 
 interface IAuthContext {
     user: IUserLogin;
     setUser: (user: IUserLogin) => void;
-    handleLogin: (email: string, password: string) => Promise<void>;
+    handleLogin: (username: string, password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
-    const [user, setUser] = useState<IUserLogin>({ username: '', email: '', password: '' });
+    const [user, setUser] = useState<IUserLogin>({ username: '' });
 
-    const handleLogin = async (email: string, password: string) => {
+    const handleLogin = async (username: string, password: string) => {
         try {
-            console.log("Tentando login com:", { email, password });
+            console.log("Tentando login com:", { username, password });
+            console.log("Função handleLogin chamada");
     
             const existingToken = await AsyncStorage.getItem('token');
             if (existingToken) {
+                console.log("Token existente encontrado. Redirecionando para /home.");
+                router.push('/home');
                 return; 
             }
     
-            const response = await api.login(email, password);
-    
+            const response = await api.login(username, password);
+            console.log("Resposta do servidor:", response);
             console.log("Resposta do servidor após login:", response);
     
             if (!response || !response.token) {
@@ -39,11 +40,14 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
                 throw new Error('Invalid login credentials');
             }
     
-            const { token, username } = response; 
-            
-            await AsyncStorage.setItem('token', token); 
-            setUser({ username, email, password });
-            
+            const { token } = response;
+            await AsyncStorage.setItem('token', token);
+            const storedToken = await AsyncStorage.getItem('token');
+            console.log("Token armazenado:", storedToken); 
+    
+            setUser({ username });
+
+            console.log("Token salvo:", token);
             router.push('/home'); 
         } catch (error) {
             console.error("Erro durante login:", error);
@@ -55,6 +59,10 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
             throw error;
         }
     };
+       
+    useEffect(() => {
+        console.log("Usuário salvo:", user); // Exibe o usuário salvo após a atualização
+    }, [user]);
     
     return (
         <AuthContext.Provider value={{ user, setUser, handleLogin }}>

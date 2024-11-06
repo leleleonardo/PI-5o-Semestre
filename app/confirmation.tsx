@@ -1,25 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
 import Cardbox from '../Components/Card/Card';
-import { BotaoCancelar, BotaoConfirmar, BotaoEditarConta, BotaoSair } from '../Components/Button/Button';
+import { BotaoCancelar, BotaoConfirmar} from '../Components/Button/Button';
+import api from "../Services/api";
 
-export default function ConfirmationPage() {
+const Confirmation: React.FC = () => {
+    const { consoleName } = useLocalSearchParams();  
+
+    const [credits, setCredits] = useState(0);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const userData = await api.getUser();
+                setCredits(userData.credits);
+            } catch (error) {
+                console.error('Erro ao obter dados do usuário:', error);
+            }
+        };
+
+        fetchUserData();
+    }, []); // O useEffect será executado assim que o componente for montado
+
     return (
         <View style={styles.container}>
             <Cardbox>
                 <Text style={styles.title}>CONFIRMAÇÃO</Text>
                 <Fundo>
-                    <Text style={styles.message}>Seu Saldo é de X créditos. Serão descontados X créditos de sua conta quando chegar sua vez no console.</Text>
-                    <BotaoConfirmar />
-                    <BotaoCancelar />
+                    <Text style={styles.message}>
+                        Seu saldo é de {credits} créditos. O valor será descontado de seu saldo e cartão de crédito quando chegar sua vez.
+                    </Text>
+                    {/* Passando o consoleName para os botões */}
+                    <BotaoConfirmar consoleName={consoleName as string} />
+                    <BotaoCancelar consoleName={consoleName as string} />
                 </Fundo>
             </Cardbox>
-                <Footer />
+            <Footer />
         </View>
-    )
-}
+    );
+};
+
+export default Confirmation;
 
 const styles = StyleSheet.create({
     container: {

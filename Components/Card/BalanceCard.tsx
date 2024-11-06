@@ -1,43 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import axios from 'axios';
 import { useAuth } from '../../context/auth';
-import { API_URL } from '../../config';
+import api from "../../Services/api";
 
-interface BalanceCardProps {
-  balance: number;
-}
 
 const BalanceCard: React.FC = () => {
   const { user } = useAuth(); // Obtém o usuário do contexto
   const [balance, setBalance] = useState<number>(0); // Estado para armazenar o saldo
 
   useEffect(() => {
-      const fetchBalance = async () => {
-          try {
-              const response = await axios.get(`${API_URL}/credits`); // Chame a URL do seu endpoint para obter o saldo
-              setBalance(response.data.credits); // Armazena o saldo no estado
-          } catch (error) {
-              console.error('Erro ao buscar o saldo:', error);
-          }
-      };
-
-      if (user.username) { // Verifica se o usuário está logado
-          fetchBalance();
+    const fetchBalance = async () => {
+      try {
+        const userData = await api.getUser(); // Chama a API para obter os dados do usuário
+        setBalance(userData.credits); // Acessa diretamente os créditos no objeto retornado
+      } catch (error) {
+        console.error('Erro ao buscar o saldo:', error);
       }
-  }, [user.username]); // Executa o efeito quando o usuário muda
+    };
+
+    if (user?.username) { // Verifica se o usuário está logado
+      fetchBalance();
+    }
+  }, [user?.username]); // Executa o efeito sempre que o `user.username` mudar
 
   return (
-      <View style={styles.balanceCard}>
-          {/* Título "SALDO" */}
-          <Text style={styles.heading}>SALDO</Text>
+    <View style={styles.balanceCard}>
+      {/* Título "SALDO" */}
+      <Text style={styles.heading}>SALDO</Text>
 
-          {/* Container para o ícone e o valor, com flexDirection em "row" para exibição lado a lado */}
-          <View style={styles.balanceRow}>
-              <Text style={styles.balanceIcon}>💲</Text>
-              <Text style={styles.balanceAmount}>{balance}</Text>
-          </View>
+      {/* Container para o ícone e o valor, com flexDirection em "row" para exibição lado a lado */}
+      <View style={styles.balanceRow}>
+        <Text style={styles.balanceIcon}>💲</Text>
+        <Text style={styles.balanceAmount}>{balance}</Text> {/* Exibe apenas os créditos */}
       </View>
+    </View>
   );
 };
 
