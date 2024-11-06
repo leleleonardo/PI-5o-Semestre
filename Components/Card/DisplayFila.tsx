@@ -14,9 +14,6 @@ interface DisplayFilaProps {
 }
 
 const DisplayFila: React.FC<DisplayFilaProps> = ({ filas }) => {
-    if (!filas || filas.length === 0) {
-        return <Text style={styles.message}>Você não está em nenhuma fila. Clique para acessar uma fila.</Text>;
-    }
 
     // Agrupa filas por console e encontra a maior positionFila
     const groupedQueues = filas.reduce((acc, fila) => {
