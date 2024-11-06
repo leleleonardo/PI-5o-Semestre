@@ -1,20 +1,23 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, Text } from 'react-native';
 import { Card } from 'react-native-paper';
 
 interface FundoProps {
   children: React.ReactNode;
 }
 
-const Fundo: React.FC<FundoProps> = ({ children }) => (
+const Fundo: React.FC<FundoProps> = ({ children }) => {
+  console.log('Children fundo:', children);
+  return (
   <Card style={styles.card}>
     <Card.Content>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {children}
+      {children}
       </ScrollView>
     </Card.Content>
   </Card>
 );
+};
 
 const styles = StyleSheet.create({
     card: {

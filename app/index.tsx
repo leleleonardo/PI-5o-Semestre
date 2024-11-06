@@ -52,7 +52,7 @@ const Login: React.FC = () => {
                 />
 
                 <Button mode="contained" onPress={handleLogin}>
-                    ENTRAR
+                ENTRAR
                 </Button>
             </Cardbox>
         </View>

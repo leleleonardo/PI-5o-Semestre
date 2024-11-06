@@ -83,7 +83,7 @@ interface BotaoComprarProps {
         mode="contained"
         contentStyle={{ height: 55 }}
         onPress={handlePress}>
-        COMPRAR
+       <Text>COMPRAR</Text>
       </Button>
     );
   };
@@ -181,7 +181,7 @@ const BotaoSair: React.FC<BotaoSairProps> = ({ onLogout }) => (
     <Button style={styles.button}
         mode="contained"
         contentStyle={{ height: 55 }}
-        onPress={onLogout}> {/* Chama a função passada como prop */}
+        onPress={onLogout}>
         SAIR
     </Button>
 );
@@ -232,7 +232,9 @@ const BotaoCreditos: React.FC<{ creditsAmount: string; setCreditsAmount: (value:
             onChangeText={setCreditsAmount}
             keyboardType="numeric" // Define o teclado numérico
         />
+         <View style={{ alignItems: 'center', marginTop: 1 }}>
         <Text style={{ textAlign: 'center', marginTop: 1, color: '#ffffff' }}>créditos</Text> {/* Texto "créditos" centralizado */}
+        </View>
     </View>
 );
 

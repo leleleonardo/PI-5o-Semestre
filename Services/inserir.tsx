@@ -1,4 +1,4 @@
-// app.js ou um arquivo de rota
+/*// app.js ou um arquivo de rota
 const express = require('express');
 const mongoose = require('mongoose');
 const Fila = require('./models/Fila');
@@ -32,3 +32,4 @@ app.post('/fila', async (req, res) => {
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');
 });
+*/

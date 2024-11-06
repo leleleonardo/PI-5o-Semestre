@@ -37,12 +37,12 @@ export default function Home() {
 
                 <Text style={styles.title}>Aguardando</Text>
                 
-                <DisplayFila filas={filas} /> {/* Renderiza o novo componente com as filas */}
+                <DisplayFila filas={filas} /> 
                 
             </Cardbox>
 
-            {/* Aqui você chama o QueueManagement */}
-            <QueueManagement />  {/* Isso vai rodar em segundo plano, não precisa renderizar nada na tela */}
+        
+            <QueueManagement />  
 
             <Footer />
         </View>

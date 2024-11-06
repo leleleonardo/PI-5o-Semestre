@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
@@ -61,3 +61,4 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
     },
 });
+*/

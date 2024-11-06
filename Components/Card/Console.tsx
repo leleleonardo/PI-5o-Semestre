@@ -6,14 +6,14 @@ import { useAuth } from '../../context/auth';
 import api from "../../Services/api";
 //import axios from 'axios';
 
-const Console1 = () => (
+/*const Console1 = () => (
   <Card style={styles.consoleCard}>
     <Card.Content>
       <Text style={styles.title}>PS5</Text>
       <Text style= {styles.message}>Tempo de espera: 30 minutos</Text>
     </Card.Content>
   </Card>
-);
+);*/
 
 interface Console2Props {
   consoleName: string; // Definindo que consoleName é uma string
@@ -63,6 +63,7 @@ const Console2: React.FC<Console2Props> = ({ consoleName }) => {
       
         <Text style={styles.title}>{consoleName}</Text>
         <Text style={styles.message}>Tempo de espera: {waitTime}</Text>
+        
         {user.username ? (
           <BotaoJogar consoleName={consoleName} />
         ) : (
@@ -103,4 +104,4 @@ const styles = StyleSheet.create({
     
   });
 
-export { Console1, Console2 }
+export { Console2 }

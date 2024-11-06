@@ -27,7 +27,7 @@ export default function Profile() {
                     <BotaoHist />
                 </View>
                 <View style={styles.sairContainer}>
-                    <BotaoSair onLogout={handleLogout} /> {/* Passando a função de logout */}
+                    <BotaoSair onLogout={handleLogout} />
                 </View>
             </Cardbox>
             <Footer />

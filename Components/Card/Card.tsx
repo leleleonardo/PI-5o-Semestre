@@ -4,14 +4,34 @@ import { Card, Text } from 'react-native-paper';
 interface CardboxProps {
     children: React.ReactNode;
   }
+  
+  const Cardbox: React.FC<CardboxProps> = ({ children }) => {
+    console.log('Children card:', children);  // Exibe os dados passados como children
+  
+    // Verifique se o conteúdo dos children contém espaços vazios ou texto inválido
+    if (typeof children === 'string') {
+      console.log('Texto dentro do Cardbox:', children);
+      if (children.trim() === "") {
+        console.warn('O texto passado está vazio ou contém apenas espaços.');
+      }
+    } else if (Array.isArray(children)) {
+      children.forEach((child, index) => {
+        console.log(`Child no índice ${index}:`, child);  // Log do child individual
+        if (typeof child === 'string' && child.trim() === "") {
+          console.warn(`Espaço vazio encontrado no índice ${index} do array de children.`);
+        }
+      });
+    }
+    
 
-const Cardbox: React.FC<CardboxProps> = ({ children }) => (
-    <Card style={styles.card}>
-        <Card.Content>
-            {children}
-        </Card.Content>
-    </Card>
-);
+    return (
+        <Card style={styles.card}>
+            <Card.Content>
+                {children}
+            </Card.Content>
+        </Card>
+    );
+};
 
 const styles = StyleSheet.create({
     card: {
