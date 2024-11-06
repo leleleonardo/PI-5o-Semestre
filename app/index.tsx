@@ -6,19 +6,17 @@ import Cardbox from '../Components/Card/Card';
 
 const Login: React.FC = () => {
     const auth = useAuth(); 
-    console.log("Auth Context:", auth);
     const [showPassword, setShowPassword] = useState(false);
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
-        console.log("Clicou no botão de login"); // Adicione esta linha
-    try {
-        await auth.handleLogin(username, password); 
-    } catch (error) {
-        console.error("Erro durante login:", error);
-        Alert.alert('Erro', 'Usuário ou senha inválidos!');
-    }
+        try {
+            await auth.handleLogin(email, password); 
+        } catch (error) {
+            console.error("Erro durante login:", error);
+            Alert.alert('Erro', 'Email ou senha inválidos!');
+        }
     };
 
     return (
@@ -30,9 +28,9 @@ const Login: React.FC = () => {
                     mode="flat"
                     style={styles.input}
                     theme={{ colors: { primary: '#ffffff', text: '#ffffff', placeholder: '#888' } }}
-                    value={username}
-                    onChangeText={setUsername}
-                    placeholder="Username"
+                    value={email}
+                    onChangeText={setEmail}
+                    placeholder="Email"
                 />
 
                 <TextInput
@@ -51,9 +49,7 @@ const Login: React.FC = () => {
                     }
                 />
 
-                <Button mode="contained" onPress={handleLogin}>
-                    ENTRAR
-                </Button>
+                <Button mode="contained" onPress={handleLogin}>ENTRAR</Button>
             </Cardbox>
         </View>
     );

@@ -1,40 +1,40 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import api from '../../Services/api'; // Importe o arquivo api.ts
 import { BotaoComprar, BotaoCreditos } from '../Button/Button';
-import { useAuth } from '../../context/auth';
-//import axios from 'axios';
-
-
 
 const PurchaseCard: React.FC = () => {
   const [creditsAmount, setCreditsAmount] = useState<string>(''); // Estado para o valor de créditos
-  const { user } = useAuth(); // Obtém o usuário do contexto
+
+  const handlePurchase = async () => {
+    if (isNaN(parseFloat(creditsAmount)) || parseFloat(creditsAmount) <= 0) {
+      alert("Por favor, insira um valor válido.");
+      return;
+    }
+    
+    try {
+      const response = await api.addCredits({ amount: parseFloat(creditsAmount) }); // Chamando o método addCredits do arquivo api
+      alert(`Créditos adicionados: ${response.credits}`);
+    } catch (error) {
+      alert("Erro ao adicionar créditos. Tente novamente.");
+    }
+  };
 
   return (
-      <View style={styles.balanceCard}>
-          {/* Título "COMPRAR" */}
-          <Text style={styles.heading}>COMPRAR</Text>
-
-          {/* Botao Créditos com TextInput */}
-          <BotaoCreditos 
-              creditsAmount={creditsAmount} 
-              setCreditsAmount={setCreditsAmount} 
-          />
-
-          {/* Botao Comprar */}
-          <BotaoComprar creditsAmount={parseFloat(creditsAmount)} />
-      </View>
+    <View style={styles.balanceCard}>
+        <Text style={styles.heading}>COMPRAR</Text>
+        <BotaoCreditos creditsAmount={creditsAmount} setCreditsAmount={setCreditsAmount} />
+        <BotaoComprar creditsAmount={Number(creditsAmount)} onPress={handlePurchase} />
+    </View>
   );
 };
-
-export default PurchaseCard;
 
 const styles = StyleSheet.create({
   balanceCard: {
     backgroundColor: '#28224A',
     borderRadius: 20,
     padding: 20,
-    alignItems: 'center', // Centraliza horizontalmente o conteúdo dentro do card
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.3,
@@ -46,19 +46,19 @@ const styles = StyleSheet.create({
     fontSize: 40,
     marginBottom: 10,
   },
-  // Flexbox row para alinhar o ícone e o valor do saldo lado a lado
   balanceRow: {
-    flexDirection: 'row', // Define layout em linha (horizontal)
-    alignItems: 'center', // Centraliza verticalmente os itens na linha
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   balanceIcon: {
-    fontSize: 36, // Define o tamanho do ícone
+    fontSize: 36,
     color: 'white',
-    marginRight: 10, // Espaçamento entre o ícone e o valor
+    marginRight: 10,
   },
   balanceAmount: {
-    fontSize: 48, // Tamanho do texto que exibe o saldo
+    fontSize: 48,
     color: 'white',
-    margin: 0,
   },
 });
+
+export default PurchaseCard;

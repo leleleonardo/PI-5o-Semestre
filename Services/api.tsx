@@ -16,10 +16,10 @@ const api = {
         }
     },
 
-    async login(username: string, password: string) {
+    async login(email: string, password: string) {
         try {
-            const response = await axiosInstance.post('/api/auth/login', { username, password });
-            console.log("Resposta do login:", response.data); // Adicione este log
+            const response = await axiosInstance.post('/api/auth/login', { email, password });
+            console.log("Resposta do login:", response.data); // Adicione este log para depuração
             return response.data;
         } catch (error) {
             console.error('Erro ao fazer login:', error);
@@ -88,6 +88,36 @@ const api = {
             throw error;
         }
     },
-};
+    async getCredits() {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axiosInstance.get('/api/user/credits', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Erro ao obter créditos:', error);
+            throw error;
+        }
+    },
+
+    async addCredits({ amount }: any) {
+        try {
+          const token = await AsyncStorage.getItem('token');
+          const response = await axiosInstance.post('/api/user/add-credits', { amount }, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          });
+          return response.data;
+        } catch (error) {
+          console.error('Erro ao adicionar créditos:', error);
+          throw error;
+        }
+      }
+    };
 
 export default api;

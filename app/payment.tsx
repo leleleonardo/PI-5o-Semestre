@@ -7,7 +7,6 @@ import PurchaseCard from '../Components/Card/PurchaseCard'
 import React from 'react'
 
 
-
 export default function Payment() {
     return (
         <View style={styles.container}>

@@ -18,6 +18,12 @@ interface BotaoSairProps {
     onLogout: () => Promise<void>; 
 }
 
+interface BotaoComprarProps {
+    creditsAmount: number;
+    onPress: () => Promise<void>;  // Defina o tipo de onPress, que agora deve ser uma função assíncrona
+}
+
+
 const BotaoFila = () => {
     return (
         <Button style={styles.button}
@@ -90,35 +96,13 @@ const BotaoJogar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
 };
 
 
-  const BotaoComprar: React.FC<{ creditsAmount: number }> = ({ creditsAmount }) => {
-    const { user } = useAuth(); // Obtém o usuário do contexto
-
-    const handlePress = async () => {
-        if (!user || isNaN(creditsAmount) || creditsAmount <= 0) {
-            alert('Por favor, insira um valor válido.');
-            return;
-        }
-
-        try {
-            const response = await axios.post(`${API_URL}/credits/add`, {
-                amount: creditsAmount, // Envia o valor dos créditos editados
-            });
-
-            if (response.status === 200) {
-                console.log('Créditos atualizados:', response.data.credits);
-            } else {
-                console.error('Erro ao adicionar créditos:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-        }
-    };
-
+const BotaoComprar: React.FC<BotaoComprarProps> = ({ creditsAmount, onPress }) => {
     return (
         <Button style={styles.button}
             mode="contained"
             contentStyle={{ height: 55 }}
-            onPress={handlePress}>
+            onPress={onPress}  // Agora, onPress está sendo passado corretamente
+        >
             COMPRAR
         </Button>
     );
