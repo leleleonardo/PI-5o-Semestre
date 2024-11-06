@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../Services/api';  // Sua função de API
 
-const consoles = ['PS5', 'Xbox', 'VR'];  // Lista de consoles que você deseja monitorar
+const consoles = ['PS5', 'XBOX', 'VR'];  // Lista de consoles que você deseja monitorar
 
 const QueueManagement = () => {
   const [isUpdating, setIsUpdating] = useState(false);  // Para evitar múltiplas atualizações simultâneas
