@@ -2,12 +2,11 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import { router, useRouter } from 'expo-router';
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/auth';
 import { View, Text, TextInput } from 'react-native';
 import api from "../../Services/api";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_URL } from '../../config';
+
 
 
 interface BotaoJogarProps {
@@ -89,41 +88,50 @@ const BotaoJogar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
     );
 };
 
-
-  const BotaoComprar: React.FC<{ creditsAmount: number }> = ({ creditsAmount }) => {
+interface BotaoComprarProps {
+    creditsAmount: number; // Valor inserido para os créditos
+  }
+  
+  const BotaoComprar: React.FC<BotaoComprarProps> = ({ creditsAmount }) => {
     const { user } = useAuth(); // Obtém o usuário do contexto
-
+    const [updatedCredits, setUpdatedCredits] = useState<number | null>(null); // Estado local para os créditos atualizados
+  
     const handlePress = async () => {
-        if (!user || isNaN(creditsAmount) || creditsAmount <= 0) {
-            alert('Por favor, insira um valor válido.');
-            return;
-        }
-
-        try {
-            const response = await axios.post(`${API_URL}/credits/add`, {
-                amount: creditsAmount, // Envia o valor dos créditos editados
-            });
-
-            if (response.status === 200) {
-                console.log('Créditos atualizados:', response.data.credits);
-            } else {
-                console.error('Erro ao adicionar créditos:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-        }
+      // Verifica se o valor é válido
+      if (!user || isNaN(creditsAmount) || creditsAmount <= 0) {
+        alert('Por favor, insira um valor válido.');
+        return;
+      }
+  
+      try {
+        // Envia o valor de créditos para a API
+        const newCredits = await api.addCredits(creditsAmount); // API retorna os créditos atualizados após a adição
+        console.log('Créditos atualizados no banco de dados:', newCredits);
+        
+        // Atualiza os créditos localmente no estado
+        setUpdatedCredits(newCredits); // Atualiza o estado com os créditos após a adição
+  
+        // Atualize qualquer outro estado global ou do contexto, se necessário
+        // Exemplo: atualizar o contexto de créditos, caso você esteja utilizando um contexto de créditos.
+        
+      } catch (error) {
+        console.error('Erro ao adicionar créditos:', error);
+      }
     };
-
+  
     return (
-        <Button style={styles.button}
-            mode="contained"
-            contentStyle={{ height: 55 }}
-            onPress={handlePress}>
-            COMPRAR
+      <View>
+        <Button
+          style={{ height: 55 }}
+          mode="contained"
+          onPress={handlePress}>
+          COMPRAR
         </Button>
+      </View>
     );
-};
-
+  };
+  
+  
 
 const BotaoConfirmar = () => (
     <Button style={styles.button}

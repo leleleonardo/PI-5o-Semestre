@@ -29,15 +29,26 @@ const api = {
 
     async getUser() {
         try {
-            const response = await axiosInstance.get('/api/user', {
-                headers: { Authorization: `Bearer ${AsyncStorage.getItem('token')}` }
-            });
-            return response.data;
+          // Recupera o token de forma assíncrona
+          const token = await AsyncStorage.getItem('token');
+          
+          // Verifica se o token existe
+          if (!token) {
+            throw new Error('Token não encontrado');
+          }
+      
+          // Envia a requisição com o token no cabeçalho
+          const response = await axiosInstance.get('/api/user', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+      
+          // Retorna os dados do usuário
+          return response.data;
         } catch (error) {
-            console.error('Erro ao obter usuário:', error);
-            throw error;
+          console.error('Erro ao obter usuário:', error);
+          throw error;  // Repassa o erro para ser tratado por quem chamou a função
         }
-    },
+      },
 
     async getQueues(consoleName: string): Promise<any> {
         try {
@@ -76,7 +87,7 @@ const api = {
     async createQueue(data: any) {
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axiosInstance.post('https://api-5sem-r2ds.onrender.com/api/queues', data, {
+            const response = await axiosInstance.post('/api/queues', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -88,6 +99,35 @@ const api = {
             throw error;
         }
     },
+
+    async addCredits(amount: number) {
+        try {
+          // Obtém o token armazenado no AsyncStorage
+          const token = await AsyncStorage.getItem('token');
+          
+          // Verifica se o token existe
+          if (!token) {
+            throw new Error('Token de autenticação não encontrado');
+          }
+      
+          // Faz a requisição para a API com o valor de `amount` e o token no cabeçalho
+          const response = await axiosInstance.post('/api/credits/add', // Endpoint da API
+            { amount }, // Corpo da requisição com o valor de `amount`
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                } // Adiciona o token no cabeçalho da requisição
+            }
+          );
+      
+          // Retorna os créditos atualizados
+          return response.data.credits;
+        } catch (error) {
+          console.error('Erro ao adicionar créditos:', error);
+          throw error; // Lança o erro para ser tratado no componente chamador
+        }
+      },
 };
 
 export default api;

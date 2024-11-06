@@ -1,7 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import { BotaoJogar } from '../Button/Button';
 import { useAuth } from '../../context/auth';
+import api from "../../Services/api";
 //import axios from 'axios';
 
 const Console1 = () => (
@@ -18,23 +20,50 @@ interface Console2Props {
 }
 
 const Console2: React.FC<Console2Props> = ({ consoleName }) => {
-    const { user } = useAuth(); // Obtenha o usuário do contexto
-    console.log("Usuário atual:", user); // Verifique os dados do usuário
-
+    const { user } = useAuth();
+    const [waitTime, setWaitTime] = useState<string>('Calculando...');
+  
+    useEffect(() => {
+      const calculateWaitTime = async () => {
+        try {
+          // Obtém as filas para o console específico
+          const queues = await api.getQueues(consoleName);
+          
+          // Encontra a maior posição na fila
+          const maxPosition = Math.max(...queues.map((fila: { positionFila: number }) => fila.positionFila));
+  
+          // Calcula o tempo total em minutos
+          const totalMinutes = maxPosition * 30;
+  
+          // Converte para horas e minutos
+          const hours = Math.floor(totalMinutes / 60);
+          const minutes = totalMinutes % 60;
+  
+          // Atualiza o estado com o tempo formatado
+          setWaitTime(`${hours}h ${minutes}min`);
+        } catch (error) {
+          console.error('Erro ao calcular tempo de espera:', error);
+          setWaitTime('Erro ao calcular');
+        }
+      };
+  
+      calculateWaitTime();
+    }, [consoleName]);
+  
     return (
-        <Card style={styles.consoleCard}>
-            <Card.Content>
-                <Text style={styles.title}>{consoleName}</Text>
-                <Text style={styles.message}>Tempo de espera: 30 minutos</Text>
-                {user.username ? (
-                    <BotaoJogar consoleName={consoleName} /> // Passando o nome do console
-                ) : (
-                    <Text>Faça login para jogar.</Text>
-                )}
-            </Card.Content>
-        </Card>
+      <Card style={styles.consoleCard}>
+        <Card.Content>
+          <Text style={styles.title}>{consoleName}</Text>
+          <Text style={styles.message}>Tempo de espera: {waitTime}</Text>
+          {user.username ? (
+            <BotaoJogar consoleName={consoleName} />
+          ) : (
+            <Text>Faça login para jogar.</Text>
+          )}
+        </Card.Content>
+      </Card>
     );
-};;
+  };
 
 const styles = StyleSheet.create({
     consoleCard: {

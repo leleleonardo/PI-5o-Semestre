@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { BotaoComprar, BotaoCreditos } from '../Button/Button';
 import { useAuth } from '../../context/auth';
-//import axios from 'axios';
-
+import api from "../../Services/api";
 
 
 const PurchaseCard: React.FC = () => {
   const [creditsAmount, setCreditsAmount] = useState<string>(''); // Estado para o valor de créditos
-  const { user } = useAuth(); // Obtém o usuário do contexto
 
   return (
-      <View style={styles.balanceCard}>
-          {/* Título "COMPRAR" */}
-          <Text style={styles.heading}>COMPRAR</Text>
+    <View style={styles.balanceCard}>
+      <Text style={styles.heading}>COMPRAR</Text>
 
-          {/* Botao Créditos com TextInput */}
-          <BotaoCreditos 
-              creditsAmount={creditsAmount} 
-              setCreditsAmount={setCreditsAmount} 
-          />
+      {/* Botão Créditos com TextInput */}
+      <BotaoCreditos
+        creditsAmount={creditsAmount}
+        setCreditsAmount={setCreditsAmount}
+      />
 
-          {/* Botao Comprar */}
-          <BotaoComprar creditsAmount={parseFloat(creditsAmount)} />
-      </View>
+      {/* Botão Comprar sem o onCreditUpdate */}
+      <BotaoComprar
+        creditsAmount={parseFloat(creditsAmount)} // Passa o valor inserido no campo
+      />
+    </View>
   );
 };
 
 export default PurchaseCard;
+
 
 const styles = StyleSheet.create({
   balanceCard: {
