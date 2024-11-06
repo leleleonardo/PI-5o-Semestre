@@ -14,6 +14,10 @@ interface DisplayFilaProps {
 }
 
 const DisplayFila: React.FC<DisplayFilaProps> = ({ filas }) => {
+    if (!filas || filas.length === 0) {
+        return <Text style={styles.message}>Você não está em nenhuma fila. Clique para acessar uma fila.</Text>;
+    }
+
     // Agrupa filas por console e encontra a maior positionFila
     const groupedQueues = filas.reduce((acc, fila) => {
         const currentMinPosition = acc[fila.console]?.positionFila ?? Infinity;
@@ -32,6 +36,8 @@ const DisplayFila: React.FC<DisplayFilaProps> = ({ filas }) => {
         return { console, positionFila: fila.positionFila, waitTime: timeString };
     });
 
+    console.log('Messages:', messages);  // Adicionei um console.log aqui
+
     return (
         <View style={styles.container}>
             {messages.length === 0 ? (
@@ -40,7 +46,7 @@ const DisplayFila: React.FC<DisplayFilaProps> = ({ filas }) => {
                 messages.map((item, index) => (
                     <Card key={index} style={styles.card}>
                         <Card.Content>
-                            <Text style={styles.consoleName}>{item.console}</Text> {/* Console em destaque */}
+                            <Text style={styles.consoleName}>{item.console}</Text>
                             <Text style={styles.label}>Posição:</Text>
                             <Text style={styles.value}>{item.positionFila}</Text>
                             <Text style={styles.label}>Tempo de espera:</Text>
