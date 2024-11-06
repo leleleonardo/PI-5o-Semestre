@@ -39,7 +39,7 @@ const Console2: React.FC<Console2Props> = ({ consoleName }) => {
         }
 
         // Calcula o tempo total em minutos
-        const totalMinutes = maxPosition * 30;
+        const totalMinutes = (maxPosition + 1) * 30;
 
         // Converte para horas e minutos
         const hours = Math.floor(totalMinutes / 60);
