@@ -7,6 +7,7 @@ import api from "../../Services/api";
 
 const PurchaseCard: React.FC = () => {
   const [creditsAmount, setCreditsAmount] = useState<string>(''); // Estado para o valor de créditos
+  const { user } = useAuth(); // Obtém o usuário do contexto
 
   return (
     <View style={styles.balanceCard}>
@@ -18,7 +19,7 @@ const PurchaseCard: React.FC = () => {
         setCreditsAmount={setCreditsAmount}
       />
 
-      {/* Botão Comprar sem o onCreditUpdate */}
+      {/* Botão Comprar */}
       <BotaoComprar
         creditsAmount={parseFloat(creditsAmount)} // Passa o valor inserido no campo
       />

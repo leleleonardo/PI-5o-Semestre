@@ -37,8 +37,6 @@ const BalanceCard: React.FC = () => {
   );
 };
 
-
-
 export default BalanceCard;
 
 const styles = StyleSheet.create({

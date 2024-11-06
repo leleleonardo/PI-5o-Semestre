@@ -94,7 +94,6 @@ interface BotaoComprarProps {
   
   const BotaoComprar: React.FC<BotaoComprarProps> = ({ creditsAmount }) => {
     const { user } = useAuth(); // Obtém o usuário do contexto
-    const [updatedCredits, setUpdatedCredits] = useState<number | null>(null); // Estado local para os créditos atualizados
   
     const handlePress = async () => {
       // Verifica se o valor é válido
@@ -105,29 +104,26 @@ interface BotaoComprarProps {
   
       try {
         // Envia o valor de créditos para a API
-        const newCredits = await api.addCredits(creditsAmount); // API retorna os créditos atualizados após a adição
-        console.log('Créditos atualizados no banco de dados:', newCredits);
-        
-        // Atualiza os créditos localmente no estado
-        setUpdatedCredits(newCredits); // Atualiza o estado com os créditos após a adição
+        const updatedCredits = await api.addCredits(creditsAmount); // API retorna os créditos atualizados após a adição
+        console.log('Créditos atualizados no banco de dados:', updatedCredits);
+        router.push('/payment');
   
-        // Atualize qualquer outro estado global ou do contexto, se necessário
-        // Exemplo: atualizar o contexto de créditos, caso você esteja utilizando um contexto de créditos.
-        
+        // Aqui, você pode atualizar os créditos localmente no contexto ou estado, se necessário
+        // Atualizar os créditos no estado global ou contexto
+        // Exemplo: onCreditUpdate(updatedCredits); // Se você tiver um método para atualizar o estado
       } catch (error) {
         console.error('Erro ao adicionar créditos:', error);
       }
     };
   
     return (
-      <View>
-        <Button
-          style={{ height: 55 }}
-          mode="contained"
-          onPress={handlePress}>
-          COMPRAR
-        </Button>
-      </View>
+      <Button
+        style={styles.button}
+        mode="contained"
+        contentStyle={{ height: 55 }}
+        onPress={handlePress}>
+        COMPRAR
+      </Button>
     );
   };
   
