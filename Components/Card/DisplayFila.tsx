@@ -16,9 +16,9 @@ interface DisplayFilaProps {
 const DisplayFila: React.FC<DisplayFilaProps> = ({ filas }) => {
     // Agrupa filas por console e encontra a maior positionFila
     const groupedQueues = filas.reduce((acc, fila) => {
-        const currentMaxPosition = acc[fila.console]?.positionFila || 0;
-        if (fila.positionFila > currentMaxPosition) {
-            acc[fila.console] = fila; // Atualiza para a fila com o maior positionFila
+        const currentMinPosition = acc[fila.console]?.positionFila ?? Infinity;
+        if (fila.positionFila < currentMinPosition) {
+            acc[fila.console] = fila; // Atualiza para a fila com a menor positionFila
         }
         return acc;
     }, {} as Record<string, Queue>);

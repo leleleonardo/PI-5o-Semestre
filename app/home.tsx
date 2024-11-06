@@ -5,12 +5,13 @@ import { Footer } from '../Components/Footer/footer'
 import { useAuth } from '../context/auth';
 import DisplayFila from '../Components/Card/DisplayFila'; 
 import api from "../Services/api";
+import QueueManagement from '../Components/QueueManagement/QueueManagement';  // Importe o QueueManagement
 
 // Defina a interface para a fila
 interface Queue {
-    ID: string; // Defina o tipo correto para ID com base no que sua API retorna
-    console: string; // Adicione a propriedade console
-    positionFila: number; // Adicione a propriedade positionFila
+    ID: string;
+    console: string;
+    positionFila: number;
 }
 
 export default function Home() {
@@ -36,10 +37,15 @@ export default function Home() {
                 <Text style={styles.title}>Aguardando</Text>
                 <DisplayFila filas={filas} /> {/* Renderiza o novo componente com as filas */}
             </Cardbox>
+
+            {/* Aqui você chama o QueueManagement */}
+            <QueueManagement />  {/* Isso vai rodar em segundo plano, não precisa renderizar nada na tela */}
+
             <Footer />
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

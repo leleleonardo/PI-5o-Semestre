@@ -29,51 +29,12 @@ const BotaoFila = () => {
 };
 
 
-const BotaoJogar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
-    const { user } = useAuth();
-    const username = user.username;
+const BotaoJogar: React.FC<{ consoleName: string }> = ({ consoleName }) => {
     const router = useRouter();
 
-    const handlePress = async () => {
-        const dateTime = new Date().toISOString();
-
-        try {
-            // Obtém a lista de filas usando a api.getQueues
-            const queueResponse = await api.getQueues(consoleName);
-            const positionFila = queueResponse.length + 1; // A quantidade de filas atual
-
-            // Dados a serem enviados
-            const data = {
-                ID: `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`, // ID único
-                user: username, // Nome do usuário
-                dateTime: dateTime, // Data e hora
-                positionFila: positionFila, // Posição na fila
-                console: consoleName, // Nome do console
-            };
-            
-            // Log dos dados que serão enviados
-            console.log('Dados enviados para criar a fila:', JSON.stringify(data, null, 2)); // Usando JSON.stringify para melhor visualização
-     
-            // Envia a requisição POST para criar a nova fila usando o método createQueue
-            const response = await api.createQueue(data);
-            console.log('Resposta do servidor:', response); // Log da resposta do servidor
-
-            // Verifica a resposta da requisição
-            if (response) { // Se a resposta estiver presente, assume que a criação foi bem-sucedida
-                console.log('Fila criada com sucesso:', response);
-                router.push('/confirmation');
-            } else {
-                console.error('Erro ao incluir na fila: Resposta vazia');
-            }
-        } catch (error) {
-            console.error('Erro ao fazer a requisição:', error);
-            if (axios.isAxiosError(error) && error.response) {
-                console.error('Dados da resposta de erro:', error.response.data);
-                console.error('Status da resposta de erro:', error.response.status);
-            } else {
-                console.error('Erro não relacionado ao Axios:', error);
-            }
-        }
+    const handlePress = () => {
+        // Passa o consoleName como um parâmetro de consulta para a URL
+        router.push(`/confirmation?consoleName=${consoleName}`);
     };
 
     return (
@@ -129,14 +90,65 @@ interface BotaoComprarProps {
   
   
 
-const BotaoConfirmar = () => (
-    <Button style={styles.button}
-        mode="contained"
-        contentStyle={{ height: 55 }}
-        onPress={() => router.push('/home')}>
-        CONFIRMAR
-    </Button>
-);
+const BotaoConfirmar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
+    const { user } = useAuth();
+    const username = user.username;
+    const router = useRouter();
+
+    const handlePress = async () => {
+        const dateTime = new Date().toISOString();
+
+        try {
+            // Obtém a lista de filas usando a api.getQueues
+            const queueResponse = await api.getQueues(consoleName);
+            const positionFila = queueResponse.length; // A quantidade de filas atual
+
+            // Dados a serem enviados
+            const data = {
+                ID: `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`, // ID único
+                user: username, // Nome do usuário
+                dateTime: dateTime, // Data e hora
+                positionFila: positionFila, // Posição na fila
+                console: consoleName, // Nome do console
+            };
+            
+            // Log dos dados que serão enviados
+            console.log('Dados enviados para criar a fila:', JSON.stringify(data, null, 2)); // Usando JSON.stringify para melhor visualização
+     
+            // Envia a requisição POST para criar a nova fila usando o método createQueue
+            const response = await api.createQueue(data);
+            console.log('Resposta do servidor:', response); // Log da resposta do servidor
+
+            // Verifica a resposta da requisição
+            if (response) { // Se a resposta estiver presente, assume que a criação foi bem-sucedida
+                console.log('Fila criada com sucesso:', response);
+           
+                router.push('/home');
+            } else {
+                console.error('Erro ao incluir na fila: Resposta vazia');
+            }
+        } catch (error) {
+            console.error('Erro ao fazer a requisição:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Dados da resposta de erro:', error.response.data);
+                console.error('Status da resposta de erro:', error.response.status);
+            } else {
+                console.error('Erro não relacionado ao Axios:', error);
+            }
+        }
+    };
+
+    return (
+        <Button
+            style={styles.button}
+            mode="contained"
+            contentStyle={{ height: 55 }}
+            onPress={handlePress}
+        >
+            CONFIRMAR
+        </Button>
+    );
+};
 
 const BotaoEditarConta = () => (
     <Button style={styles.botaoPfl}
@@ -174,14 +186,41 @@ const BotaoSair: React.FC<BotaoSairProps> = ({ onLogout }) => (
     </Button>
 );
 
-const BotaoCancelar = () => (
-    <Button 
-        mode="text"
-        contentStyle={{ height: 55 }}
-        onPress={() => console.log('Pressed')}>
-        CANCELAR
-    </Button>
-);
+interface BotaoCancelarProps {
+    consoleName: string;
+}
+
+const BotaoCancelar: React.FC<BotaoCancelarProps> = ({ consoleName }) => {
+    const handlePress = async () => {
+        try {
+            // Obtém a lista atual de filas para encontrar a maior positionFila
+            const queueResponse = await api.getQueues(consoleName);
+            if (queueResponse.length === 0) {
+                console.log("A fila está vazia. Nada para cancelar.");
+                return;
+            }
+            
+            // Encontra a maior positionFila na coleção
+            const highestPositionFila = Math.max(...queueResponse.map((item: any) => item.positionFila));
+            
+            // Chama o método leaveQueue para deletar a posição mais alta
+            await api.leaveQueue(consoleName, highestPositionFila);
+            console.log(`Fila na posição ${highestPositionFila} foi removida com sucesso do console ${consoleName}`);
+        } catch (error) {
+            console.error("Erro ao cancelar a fila:", error);
+        }
+    };
+
+    return (
+        <Button 
+            mode="text"
+            contentStyle={{ height: 55 }}
+            onPress={handlePress}
+        >
+            CANCELAR
+        </Button>
+    );
+};
 
 const BotaoCreditos: React.FC<{ creditsAmount: string; setCreditsAmount: (value: string) => void }> = ({ creditsAmount, setCreditsAmount }) => (
     <View>

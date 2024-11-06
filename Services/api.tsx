@@ -128,6 +128,36 @@ const api = {
           throw error; // Lança o erro para ser tratado no componente chamador
         }
       },
+
+      async leaveQueue(consoleName: string, positionFila: number) {
+        try {
+            // Obtém o token de autenticação do AsyncStorage
+            const token = await AsyncStorage.getItem('token');
+
+            if (!token) {
+                throw new Error('Token de autenticação não encontrado');
+            }
+
+            // Envia a requisição POST para remover o item da fila com a posição especificada
+            const response = await axiosInstance.post(
+                `/api/queues/${consoleName}/leave`,
+                { positionFila }, // Corpo da requisição com a posição na fila
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+
+            // Retorna a resposta da API (mensagem de sucesso ou erro)
+            return response.data;
+        } catch (error) {
+            console.error('Erro ao sair da fila:', error);
+            throw error;
+        }
+    },
+
 };
 
 export default api;

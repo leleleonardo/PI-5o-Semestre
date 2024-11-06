@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
 import Fundo from '../Components/Card/Fundo';
 import { Footer } from '../Components/Footer/footer';
@@ -6,21 +7,23 @@ import Cardbox from '../Components/Card/Card';
 import { BotaoCancelar, BotaoConfirmar} from '../Components/Button/Button';
 import api from "../Services/api";
 
-export default function ConfirmationPage() {
-    const [credits, setCredits] = useState(0); // Estado para armazenar os créditos
+const Confirmation: React.FC = () => {
+    const { consoleName } = useLocalSearchParams();  
+
+    const [credits, setCredits] = useState(0);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userData = await api.getUser(); // Chama a função getUser
-                setCredits(userData.credits); // Armazena os créditos no estado
+                const userData = await api.getUser();
+                setCredits(userData.credits);
             } catch (error) {
                 console.error('Erro ao obter dados do usuário:', error);
             }
         };
 
-        fetchUserData(); // Chama a função para buscar os dados
-    }, []); // O array vazio significa que isso só será executado uma vez após o primeiro render
+        fetchUserData();
+    }, []); // O useEffect será executado assim que o componente for montado
 
     return (
         <View style={styles.container}>
@@ -28,16 +31,19 @@ export default function ConfirmationPage() {
                 <Text style={styles.title}>CONFIRMAÇÃO</Text>
                 <Fundo>
                     <Text style={styles.message}>
-                        Seu Saldo é de {credits} créditos. O valor será descontado de seu saldo e cartão de crédito quando chegar sua.
+                        Seu saldo é de {credits} créditos. O valor será descontado de seu saldo e cartão de crédito quando chegar sua vez.
                     </Text>
-                    <BotaoConfirmar />
-                    <BotaoCancelar />
+                    {/* Passando o consoleName para os botões */}
+                    <BotaoConfirmar consoleName={consoleName as string} />
+                    <BotaoCancelar consoleName={consoleName as string} />
                 </Fundo>
             </Cardbox>
             <Footer />
         </View>
     );
-}
+};
+
+export default Confirmation;
 
 const styles = StyleSheet.create({
     container: {
