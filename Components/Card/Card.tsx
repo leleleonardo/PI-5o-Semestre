@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
-const Cardbox = ({ children }) => (
+interface CardboxProps {
+    children: React.ReactNode;
+  }
+
+const Cardbox: React.FC<CardboxProps> = ({ children }) => (
     <Card style={styles.card}>
         <Card.Content>
             {children}

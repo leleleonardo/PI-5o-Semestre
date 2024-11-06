@@ -3,17 +3,17 @@ import { StyleSheet, ScrollView } from 'react-native';
 import { Card } from 'react-native-paper';
 
 interface FundoProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Fundo: React.FC<FundoProps> = ({ children }) => (
-    <Card style={styles.card}>
-        <Card.Content>
-            <ScrollView contentContainerStyle={styles.scrollContent}>
-                {children}
-            </ScrollView>
-        </Card.Content>
-    </Card>
+  <Card style={styles.card}>
+    <Card.Content>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {children}
+      </ScrollView>
+    </Card.Content>
+  </Card>
 );
 
 const styles = StyleSheet.create({

@@ -34,8 +34,11 @@ export default function Home() {
     return (
         <View style={styles.container}>
             <Cardbox>
+
                 <Text style={styles.title}>Aguardando</Text>
+                
                 <DisplayFila filas={filas} /> {/* Renderiza o novo componente com as filas */}
+                
             </Cardbox>
 
             {/* Aqui você chama o QueueManagement */}
@@ -83,5 +86,5 @@ const styles = StyleSheet.create({
         width: '100%', 
         alignItems: 'center', 
     },
-
+    
 })
