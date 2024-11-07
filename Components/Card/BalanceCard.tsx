@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useAuth } from '../../context/auth';
 import api from "../../Services/api";
 
-
 const BalanceCard: React.FC = () => {
   const { user } = useAuth(); // Obtém o usuário do contexto
   const [balance, setBalance] = useState<number>(0); // Estado para armazenar o saldo
@@ -25,20 +24,16 @@ const BalanceCard: React.FC = () => {
 
   return (
     <View style={styles.balanceCard}>
-      {/* Título "SALDO" */}
       <Text style={styles.heading}>SALDO</Text>
-
-      {/* Container para o ícone e o valor, com flexDirection em "row" para exibição lado a lado */}
       <View style={styles.balanceRow}>
         <Text style={styles.balanceIcon}>💲</Text>
-        <Text style={styles.balanceAmount}>{balance}</Text> {/* Exibe apenas os créditos */}
+        <Text style={styles.balanceAmount}>{balance}</Text> 
       </View>
     </View>
   );
 };
 
 export default BalanceCard;
-
 const styles = StyleSheet.create({
   balanceCard: {
     backgroundColor: '#28224A',

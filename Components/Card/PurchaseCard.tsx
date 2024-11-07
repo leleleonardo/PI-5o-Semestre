@@ -12,14 +12,12 @@ const PurchaseCard: React.FC = () => {
   return (
     <View style={styles.balanceCard}>
       <Text style={styles.heading}>COMPRAR</Text>
-
-      {/* Botão Créditos com TextInput */}
       <BotaoCreditos
         creditsAmount={creditsAmount}
         setCreditsAmount={setCreditsAmount}
       />
 
-      {/* Botão Comprar */}
+     
       <BotaoComprar
         creditsAmount={parseFloat(creditsAmount)} // Passa o valor inserido no campo
       />

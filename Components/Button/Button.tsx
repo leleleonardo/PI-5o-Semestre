@@ -79,7 +79,7 @@ interface BotaoComprarProps {
   
     return (
       <Button
-        style={styles.button}
+        style={styles.botaoText}
         mode="contained"
         contentStyle={{ height: 55 }}
         onPress={handlePress}>

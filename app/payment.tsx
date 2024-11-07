@@ -6,26 +6,17 @@ import BalanceCard from '../Components/Card/BalanceCard'
 import PurchaseCard from '../Components/Card/PurchaseCard'
 import React from 'react'
 
-
-
 export default function Payment() {
     return (
         <View style={styles.container}>
-
                 <Cardbox>
                     <Text style={styles.title}>CRÉDITOS</Text>
                     <BalanceCard></BalanceCard>
-                    <PurchaseCard></PurchaseCard>
-                    
-                    
+                    <PurchaseCard></PurchaseCard> 
                 </Cardbox>
             <View style={styles.footer}>
-            
             </View>
-            
-           
             <Footer></Footer>
-            
         </View>
     )
 }
