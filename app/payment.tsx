@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet } from 'react-native'
-import { BotaoComprar } from '../Components/Button/Button'
 import Cardbox from '../Components/Card/Card'
 import { Footer } from '../Components/Footer/footer'
 import BalanceCard from '../Components/Card/BalanceCard'

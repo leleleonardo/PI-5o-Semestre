@@ -224,19 +224,19 @@ const BotaoCancelar: React.FC<BotaoCancelarProps> = ({ consoleName }) => {
 
 const BotaoCreditos: React.FC<{ creditsAmount: string; setCreditsAmount: (value: string) => void }> = ({ creditsAmount, setCreditsAmount }) => (
     <View>
-        <TextInput
-            style={[styles.input, { backgroundColor: '#000000', color: '#ffffff', textAlign: 'center' }]} // Campo preto com texto branco e texto centralizado
-            placeholder="Insira um valor"
-            placeholderTextColor="#cccccc" // Cor do texto do placeholder
-            value={creditsAmount}
-            onChangeText={setCreditsAmount}
-            keyboardType="numeric" // Define o teclado numérico
-        />
-         <View style={{ alignItems: 'center', marginTop: 1 }}>
-        <Text style={{ textAlign: 'center', marginTop: 1, color: '#ffffff' }}>créditos</Text> {/* Texto "créditos" centralizado */}
-        </View>
+      <TextInput
+        style={[styles.input, { backgroundColor: '#000000', color: '#ffffff', textAlign: 'center' }]} // Campo preto com texto branco e texto centralizado
+        placeholder="Insira um valor"
+        placeholderTextColor="#cccccc" // Cor do texto do placeholder
+        value={creditsAmount}
+        onChangeText={setCreditsAmount}
+        keyboardType="numeric" // Define o teclado numérico
+      />
+      <View style={{ alignItems: 'center', marginTop: 1 }}>
+        <Text style={{ textAlign: 'center', marginTop: 1, color: '#ffffff' }}>créditos</Text>
+      </View>
     </View>
-);
+  );
 
 const styles = StyleSheet.create({
     button: {

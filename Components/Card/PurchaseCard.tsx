@@ -15,9 +15,7 @@ const PurchaseCard: React.FC = () => {
       <BotaoCreditos
         creditsAmount={creditsAmount}
         setCreditsAmount={setCreditsAmount}
-      />
-
-     
+      />     
       <BotaoComprar
         creditsAmount={parseFloat(creditsAmount)} // Passa o valor inserido no campo
       />
