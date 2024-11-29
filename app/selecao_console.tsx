@@ -12,13 +12,13 @@ export default function Selecao() {
                 
                 <Text style={styles.title}>JOGAR</Text>
                 <ScrollView contentContainerStyle={styles.scrollContent}>
-                <Fundo>
                 
+                <View style={styles.fundo}>
                     <Console2 consoleName="PS5" />
                     <Console2 consoleName="XBOX" />
                     <Console2 consoleName="VR" />
                     
-                </Fundo>
+                </View>
                 </ScrollView>
             </Cardbox>
             <View style={styles.footer} />
@@ -52,6 +52,16 @@ const styles = StyleSheet.create({
     scrollContent: {
         paddingHorizontal: 24,
         paddingVertical: 16,
+        justifyContent: 'center',
+    },
+    fundo: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: '#3A3560',
+        padding: 20,
+        alignItems: 'center',
+        borderRadius: 20,
+        margin: 5,
     },
 });
 

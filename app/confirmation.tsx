@@ -33,9 +33,10 @@ const Confirmation: React.FC = () => {
                     <Text style={styles.message}>
                         Seu saldo é de {credits} créditos. O valor será descontado de seu saldo e cartão de crédito quando chegar sua vez.
                     </Text>
+                    <View style={styles.botaoContainer}>
                     <BotaoConfirmar consoleName={consoleName as string} />
                     <BotaoCancelar consoleName={consoleName as string} />
-                
+                    </View>
             </Cardbox>
             <Footer />
         </View>
