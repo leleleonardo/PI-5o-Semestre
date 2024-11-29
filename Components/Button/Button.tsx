@@ -90,8 +90,8 @@ interface BotaoComprarProps {
   
   
 
-const BotaoConfirmar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
-    const { user } = useAuth();
+  const BotaoConfirmar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
+    const { user } = useAuth(); // Usuário autenticado
     const username = user.username;
     const router = useRouter();
 
@@ -101,29 +101,36 @@ const BotaoConfirmar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
         try {
             // Obtém a lista de filas usando a api.getQueues
             const queueResponse = await api.getQueues(consoleName);
-            const positionFila = queueResponse.length; // A quantidade de filas atual
+            const positionFila = queueResponse.length; // Posição atual na fila
 
-            // Dados a serem enviados
             const data = {
-                ID: `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`, // ID único
-                user: username, // Nome do usuário
-                dateTime: dateTime, // Data e hora
-                positionFila: positionFila, // Posição na fila
-                console: consoleName, // Nome do console
+                ID: `id_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+                user: username,
+                dateTime: dateTime,
+                positionFila: positionFila,
+                console: consoleName,
             };
-            
-            // Log dos dados que serão enviados
-            console.log('Dados enviados para criar a fila:', JSON.stringify(data, null, 2)); // Usando JSON.stringify para melhor visualização
-     
-            // Envia a requisição POST para criar a nova fila usando o método createQueue
-            const response = await api.createQueue(data);
-            console.log('Resposta do servidor:', response); // Log da resposta do servidor
 
-            // Verifica a resposta da requisição
-            if (response) { // Se a resposta estiver presente, assume que a criação foi bem-sucedida
+            console.log('Dados enviados para criar a fila:', JSON.stringify(data, null, 2));
+
+            // Envia a requisição para criar a fila
+            const response = await api.createQueue(data);
+            console.log('Resposta do servidor:', response);
+
+            if (response) {
                 console.log('Fila criada com sucesso:', response);
-           
-                router.push('/home');
+
+                // Subtrai 30 créditos do usuário
+                try {
+                    const updatedCredits = await api.addCredits(-30); // Subtração de 30 créditos
+                    console.log('Créditos atualizados após subtração:', updatedCredits);
+
+                } catch (creditError) {
+                    console.error('Erro ao atualizar créditos:', creditError);
+                  
+                }
+
+                router.push('/home'); // Redireciona após sucesso
             } else {
                 console.error('Erro ao incluir na fila: Resposta vazia');
             }
@@ -149,6 +156,7 @@ const BotaoConfirmar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
         </Button>
     );
 };
+
 
 const BotaoEditarConta = () => (
     <Button style={styles.botaoPfl}
