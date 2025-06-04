@@ -19,7 +19,7 @@ const api = {
     async login(username: string, password: string) {
         try {
             const response = await axiosInstance.post('/api/auth/login', { username, password });
-            console.log("Resposta do login:", response.data); // Adicione este log
+            console.log("Resposta do login:", response.data);
             return response.data;
         } catch (error) {
             console.error('Erro ao fazer login:', error);
@@ -29,20 +29,16 @@ const api = {
 
     async getUser() {
         try {
-          // Recupera o token de forma assíncrona
           const token = await AsyncStorage.getItem('token');
           
-          // Verifica se o token existe
           if (!token) {
             throw new Error('Token não encontrado');
           }
       
-          // Envia a requisição com o token no cabeçalho
           const response = await axiosInstance.get('/api/user', {
             headers: { Authorization: `Bearer ${token}` }
           });
       
-          // Retorna os dados do usuário
           return response.data;
         } catch (error) {
           console.error('Erro ao obter usuário:', error);
@@ -52,10 +48,11 @@ const api = {
 
     async getQueues(consoleName: string): Promise<any> {
         try {
-            // Obtém o token de forma assíncrona
             const token = await AsyncStorage.getItem('token');
-    
-            // Constrói a URL para buscar as filas com base no consoleName
+            
+            if (!token) {
+                throw new Error('Token de autenticação não encontrado');
+            }
             const response = await axiosInstance.get(`/api/queues/console/${consoleName}`, { // Remover '/console/'
                 headers: { Authorization: `Bearer ${token}` } // Usa o token obtido
             });
@@ -69,10 +66,8 @@ const api = {
     
     async getQueuesUser(username: string): Promise<any> {
         try {
-            // Obtém o token de forma assíncrona
             const token = await AsyncStorage.getItem('token');
     
-            // Constrói a URL para buscar as filas com base no username
             const response = await axiosInstance.get(`/api/queues/user/${username}`, { // Remover '/user/'
                 headers: { Authorization: `Bearer ${token}` } // Usa o token obtido
             });
