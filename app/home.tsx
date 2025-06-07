@@ -19,6 +19,7 @@ export default function Home() {
     const { user } = useAuth(); // Presumindo que você tem um contexto de autenticação
 
     useEffect(() => {
+         /*
         const fetchQueues = async () => {
             try {
                 const queues = await api.getQueuesUser(user.username); // Chama a API para buscar as filas pelo usuário
@@ -29,6 +30,11 @@ export default function Home() {
         };
 
         fetchQueues();
+        */
+       setFilas([
+        { ID: '1', console: 'Xbox', positionFila: 1 },
+        { ID: '2', console: 'PlayStation', positionFila: 2 },
+    ]);
     }, [user.username]); // Dependência para re-executar se o usuário mudar
 
     return (

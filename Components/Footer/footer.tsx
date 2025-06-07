@@ -1,11 +1,12 @@
 import { View, StyleSheet } from "react-native";
-import { BtIconePgt, BtIconeM, BtIconeAct } from "../IconButton/IconButton";
+import { BtIconePgt, BtIconeM, BtIconeAct, BtIconeChatBot } from "../IconButton/IconButton";
 
 const Footer = () => (
     <View style={styles.footer}>
                 <BtIconePgt />
                 <BtIconeM />
                 <BtIconeAct />
+                <BtIconeChatBot />
             </View>
 )
 

@@ -34,12 +34,14 @@ interface CardboxProps {
 const styles = StyleSheet.create({
   card: {
       width: 350,
-      height: 550,
+      height: 500,
       backgroundColor: '#272856',
       borderRadius: 50,
       borderColor: "#03CEFE",
       borderWidth: 2,
       padding: 10,
+      paddingTop: 30,
+      alignSelf: 'center',
   },
   cardContent: {
       flex: 1,

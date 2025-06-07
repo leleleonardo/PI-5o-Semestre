@@ -45,4 +45,16 @@ const BtVoltar = () => (
   onPress={() => router.push('/payment')}
 />
 );
-export { BtIconeM, BtIconeAct, BtIconePgt, BtVoltar };
+
+const BtIconeChatBot = () => {
+  const router = useRouter();
+  return (
+    <IconButton
+      icon="robot"
+      iconColor={MD3Colors.error95}
+      size={40}
+      onPress={() => router.push('/chatbot')}
+    />
+  );
+};
+export { BtIconeM, BtIconeAct, BtIconePgt, BtVoltar, BtIconeChatBot };

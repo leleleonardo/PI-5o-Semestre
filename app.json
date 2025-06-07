@@ -5,6 +5,7 @@
       "expo-router"
     ],
     "name": "pi",
-    "slug": "pi"
+    "slug": "pi",
+    "newArchEnabled": true
   }
 }

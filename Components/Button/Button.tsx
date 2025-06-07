@@ -88,7 +88,21 @@ interface BotaoComprarProps {
     );
   };
   
-  
+const BotaoChatBot = () => {
+  const router = useRouter();
+
+  return (
+    <Button
+      style={styles.botaoPfl}
+      mode="contained"
+      contentStyle={{ height: 55 }}
+      onPress={() => router.push('/chatbot')}
+    >
+      🤖 CHATBOT
+    </Button>
+  );
+};
+
 
   const BotaoConfirmar: React.FC<BotaoJogarProps> = ({ consoleName }) => {
     const { user } = useAuth(); // Usuário autenticado
@@ -284,4 +298,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export { BotaoFila, BotaoCreditos, BotaoComprar, BotaoConfirmar, BotaoEditarConta, BotaoEditarPgto, BotaoHist, BotaoSair, BotaoJogar, BotaoCancelar };
+export { BotaoFila, BotaoCreditos, BotaoComprar, BotaoConfirmar, BotaoChatBot, BotaoEditarConta, BotaoEditarPgto, BotaoHist, BotaoSair, BotaoJogar, BotaoCancelar };
